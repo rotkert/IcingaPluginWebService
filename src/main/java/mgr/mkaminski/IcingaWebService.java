@@ -8,16 +8,15 @@ import javax.jws.soap.SOAPBinding;
 @SuppressWarnings("restriction")
 @WebService
 @SOAPBinding(style = SOAPBinding.Style.RPC)
-public class HelloWebService {
+public class IcingaWebService {
  
  
-    @WebMethod(operationName = "sayHello")
-    public String sayHello(@WebParam(name="guestname") String guestname){
+    @WebMethod(operationName = "processChecks")
+    public String processChecks(@WebParam(name="checks") ChecksWrapper checks){
  
-        if(guestname==null){
-            return "Hello";
+        if(checks == null){
+            return "Failed";
         }
-        return "Hello "+ guestname;
- 
+        return "SUCCESS";
     }
 }
