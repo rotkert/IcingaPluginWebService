@@ -29,6 +29,9 @@
         <configuration>
           <server>tomcat7</server>
           <url>http://icingaubuntu.cloudapp.net:8080/manager/text</url>
+          <source>1.8</source>
+          <target>1.8</target>
+          <debug>true</debug>
         </configuration>
       </plugin>
     </plugins>
