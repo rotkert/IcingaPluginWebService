@@ -21,9 +21,10 @@ public class DataHandler {
 			checkString += SERVICE_CMD + DELIM;
 			checkString += check.getHostName() + DELIM;
 			checkString += check.getServiceName() + DELIM;
-			checkString += "0" + DELIM;
-			checkString += check.getResult() + "|";
-			checkString += check.getServiceName() + "=" +check.getResult();
+			checkString += check.getState() + DELIM;
+			checkString += check.getServiceName() + " = " + check.getResult() + "|";
+			checkString += check.getServiceName() + "=" + check.getResult() + " ";
+			checkString += "hasExceeded=" + (check.isHasExceeded() ? "1" : "0");
 			
 			checkStrings.add(checkString);
 		}

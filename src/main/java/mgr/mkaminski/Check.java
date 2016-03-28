@@ -15,8 +15,8 @@ public class Check {
 	private double result;
 	@XmlElement(name = "timestamp")
 	private long timestamp;
-	@XmlElement(name = "critical")
-	private double critical;
+	@XmlElement(name = "state")
+	private String state;
 	@XmlElement(name = "hasExceeded")
 	private boolean hasExceeded;
 	
@@ -44,11 +44,11 @@ public class Check {
 	void setTimestamp(long timestamp) {
 		this.timestamp = timestamp;
 	}
-	double getCritical() {
-		return critical;
+	String getState() {
+		return state;
 	}
-	void setCritical(double critical) {
-		this.critical = critical;
+	void setState(String state) {
+		this.state = state;
 	}
 	boolean isHasExceeded() {
 		return hasExceeded;
