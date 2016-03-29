@@ -12,7 +12,7 @@ public class DataHandler {
 	private final static String SERVICE_CMD = "PROCESS_SERVICE_CHECK_RESULT";
 	private final static String DELIM = ";";
 	
-	String reportServiceCheck(List<Check> checks) throws IOException {
+	String processServiceCheck(List<Check> checks) throws IOException {
 		checks.stream().sorted((c1, c2) -> Long.compare(c1.getTimestamp(), c2.getTimestamp()));
 		
 		ArrayList<String> checkStrings = new ArrayList<>();
@@ -42,6 +42,25 @@ public class DataHandler {
 		}
 		
 		return joinedChecks;
+	}
+	
+	String saveReport(String reportName, byte[] reportContent) throws IOException {
+		String reportPath = "/var/www/html/reports/" + reportName;
+		
+		FileOutputStream fos = null;
+		BufferedOutputStream outputStream = null;
+		
+		try {
+			fos = new FileOutputStream(reportPath);
+			outputStream = new BufferedOutputStream(fos);
+			outputStream.write(reportContent);
+		} finally {
+			if (outputStream != null) {
+				outputStream.close();
+			}
+		}
+		
+		return "SUCCESS";
 	}
 	
 }

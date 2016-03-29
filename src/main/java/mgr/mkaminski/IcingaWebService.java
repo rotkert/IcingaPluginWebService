@@ -21,9 +21,24 @@ public class IcingaWebService {
         }
         
         try {
-			return dataHandler.reportServiceCheck(checks.getChecks());
+			return dataHandler.processServiceCheck(checks.getChecks());
 		} catch (IOException e) {
 			return "FAILED " + e.getMessage(); 
 		}
     }
+    
+    @WebMethod(operationName = "uploadReport")
+    public String uploadReport(@WebParam(name = "reportName") String reportName,@WebParam(name = "reportContent") byte[] reportContent) {	
+    	if (reportName == null || reportContent == null) {
+    		return "FAILED";
+    	}
+    	
+    	try {
+			return dataHandler.saveReport(reportName, reportContent);
+		} catch (IOException e) {
+			return "FAILED " + e.getMessage();
+		}
+    }
+    
+    
 }
