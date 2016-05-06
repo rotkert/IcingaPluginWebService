@@ -1,6 +1,9 @@
 package mgr.mkaminski.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,11 +14,11 @@ import mgr.mkaminski.model.CounterRule;
 
 @Service
 @Transactional
-public class CounterRuleServiceImpl implements CounterRuleService{
-	
+public class CounterRuleServiceImpl implements CounterRuleService {
+
 	@Autowired
 	private CounterRuleDAO counterRuleDAO;
-	
+
 	@Override
 	public long createCounterRule(CounterRule counterRule) {
 		return counterRuleDAO.createCounterRule(counterRule);
@@ -32,8 +35,18 @@ public class CounterRuleServiceImpl implements CounterRuleService{
 	}
 
 	@Override
-	public List<CounterRule> getAllCounterRules() {
-		return counterRuleDAO.getAllCounterRules();
+	public TreeMap<Integer, ArrayList<CounterRule>> getGroupedCounterRules() {
+		TreeMap<Integer, ArrayList<CounterRule>> groupedCounterRules = new TreeMap<>();
+		List<CounterRule> counterRules = counterRuleDAO.getAllCounterRules();
+
+		for (CounterRule counterRule : counterRules) {
+			int ruleId = counterRule.getRuleId();
+			if (!groupedCounterRules.containsKey(ruleId)) {
+				groupedCounterRules.put(ruleId, new ArrayList<>());
+			}
+			groupedCounterRules.get(ruleId).add(counterRule);
+		}
+		return groupedCounterRules;
 	}
 
 	@Override

@@ -26,8 +26,8 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>management</servlet-name>
-		<url-pattern>/welcome.jsp</url-pattern>
-		<url-pattern>/welcome.html</url-pattern>
+		<url-pattern>/counterRules.jsp</url-pattern>
+		<url-pattern>/counterRules.html</url-pattern>
 		<url-pattern>*.html</url-pattern>
 	</servlet-mapping>
 

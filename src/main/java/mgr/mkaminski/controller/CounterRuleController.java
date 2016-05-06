@@ -1,6 +1,7 @@
 package mgr.mkaminski.controller;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.TreeMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,16 +12,15 @@ import mgr.mkaminski.model.CounterRule;
 import mgr.mkaminski.service.CounterRuleService;
  
 @Controller
-public class Management {
+public class CounterRuleController {
 	
 	@Autowired
 	private CounterRuleService counterRuleService;
 	
-	@RequestMapping("/welcome")
-	public ModelAndView helloWorld() {
-		List<CounterRule> counterRules = counterRuleService.getAllCounterRules();
-		String message = counterRules.get(0).getName();
-		return new ModelAndView("welcome", "message", message);
+	@RequestMapping("/counterRules")
+	public ModelAndView getCounterRules() {
+		TreeMap<Integer, ArrayList<CounterRule>> counterRules = counterRuleService.getGroupedCounterRules();
+		return new ModelAndView("counterRules", "counterRules", counterRules);
 	}
 }
 
