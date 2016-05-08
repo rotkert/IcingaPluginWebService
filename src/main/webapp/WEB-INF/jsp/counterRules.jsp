@@ -23,7 +23,7 @@
 						<b>Counter Rules</b>
 					</div>
 					<div align="right">
-						<a href="createEmployee">Add Counter Rule</a>
+						<a href="createCounterRule?ruleId=2">Add Counter Rule</a>
 					</div>
 				</h3>
 			</div>

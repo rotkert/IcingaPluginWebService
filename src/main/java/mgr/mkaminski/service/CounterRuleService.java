@@ -7,10 +7,15 @@ import java.util.TreeMap;
 import mgr.mkaminski.model.CounterRule;
 
 public interface CounterRuleService {
-	public long createCounterRule(CounterRule counterRule);
-	public CounterRule updateCounterRule(CounterRule counterRule);
+	public void createCounterRule(CounterRule counterRule);
+
+	public void updateCounterRule(CounterRule counterRule);
+
 	public void deleteCounterRule(long id);
-	public TreeMap<Integer, ArrayList<CounterRule>> getGroupedCounterRules();
-	public CounterRule getCounterRule(long id); 
-	public List<CounterRule> getAllCounterRules(String counterRuleName);
+
+	public TreeMap<Long, ArrayList<CounterRule>> getGroupedCounterRules();
+
+	public CounterRule getCounterRule(long id);
+
+	public List<CounterRule> getCounterRulesForRuleId(int ruleId);
 }

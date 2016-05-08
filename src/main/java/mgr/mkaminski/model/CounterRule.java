@@ -20,7 +20,7 @@ public class CounterRule implements Serializable{
 	private long id;
 	
 	@Column
-	private int ruleId;
+	private long ruleId;
 	
 	@Column
 	private String category;
@@ -48,11 +48,11 @@ public class CounterRule implements Serializable{
 		this.id = id;
 	}
 
-	public int getRuleId() {
+	public long getRuleId() {
 		return ruleId;
 	}
 
-	public void setRuleId(int ruleId) {
+	public void setRuleId(long ruleId) {
 		this.ruleId = ruleId;
 	}
 
@@ -96,7 +96,7 @@ public class CounterRule implements Serializable{
 		this.minPeriod = minPeriod;
 	}
 
-	public boolean isAbove() {
+	public boolean getIsAbove() {
 		return isAbove;
 	}
 

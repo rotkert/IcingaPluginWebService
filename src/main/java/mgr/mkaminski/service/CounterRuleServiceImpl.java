@@ -1,7 +1,6 @@
 package mgr.mkaminski.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -20,13 +19,13 @@ public class CounterRuleServiceImpl implements CounterRuleService {
 	private CounterRuleDAO counterRuleDAO;
 
 	@Override
-	public long createCounterRule(CounterRule counterRule) {
-		return counterRuleDAO.createCounterRule(counterRule);
+	public void createCounterRule(CounterRule counterRule) {
+		counterRuleDAO.createCounterRule(counterRule);
 	}
 
 	@Override
-	public CounterRule updateCounterRule(CounterRule counterRule) {
-		return counterRuleDAO.updateCounterRule(counterRule);
+	public void updateCounterRule(CounterRule counterRule) {
+		// to do
 	}
 
 	@Override
@@ -35,12 +34,12 @@ public class CounterRuleServiceImpl implements CounterRuleService {
 	}
 
 	@Override
-	public TreeMap<Integer, ArrayList<CounterRule>> getGroupedCounterRules() {
-		TreeMap<Integer, ArrayList<CounterRule>> groupedCounterRules = new TreeMap<>();
+	public TreeMap<Long, ArrayList<CounterRule>> getGroupedCounterRules() {
+		TreeMap<Long, ArrayList<CounterRule>> groupedCounterRules = new TreeMap<>();
 		List<CounterRule> counterRules = counterRuleDAO.getAllCounterRules();
 
 		for (CounterRule counterRule : counterRules) {
-			int ruleId = counterRule.getRuleId();
+			long ruleId = counterRule.getRuleId();
 			if (!groupedCounterRules.containsKey(ruleId)) {
 				groupedCounterRules.put(ruleId, new ArrayList<>());
 			}
@@ -55,7 +54,8 @@ public class CounterRuleServiceImpl implements CounterRuleService {
 	}
 
 	@Override
-	public List<CounterRule> getAllCounterRules(String counterRuleName) {
-		return counterRuleDAO.getAllCounterRules(counterRuleName);
+	public List<CounterRule> getCounterRulesForRuleId(int ruleId) {
+		return counterRuleDAO.getCounterRulesForRuleId(ruleId);
 	}
+
 }

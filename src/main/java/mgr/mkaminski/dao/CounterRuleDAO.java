@@ -10,5 +10,5 @@ public interface CounterRuleDAO {
 	public void deleteCounterRule(long id);
 	public List<CounterRule> getAllCounterRules();
 	public CounterRule getCounterRule(long id); 
-	public List<CounterRule> getAllCounterRules(String counterRuleName);
+	public List<CounterRule> getCounterRulesForRuleId(int ruleId);
 }

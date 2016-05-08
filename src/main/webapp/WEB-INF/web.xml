@@ -26,9 +26,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>management</servlet-name>
-		<url-pattern>/counterRules.jsp</url-pattern>
-		<url-pattern>/counterRules.html</url-pattern>
-		<url-pattern>*.html</url-pattern>
+		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
 
