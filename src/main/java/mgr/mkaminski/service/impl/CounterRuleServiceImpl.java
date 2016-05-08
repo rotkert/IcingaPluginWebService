@@ -1,4 +1,4 @@
-package mgr.mkaminski.service;
+package mgr.mkaminski.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import mgr.mkaminski.dao.CounterRuleDAO;
 import mgr.mkaminski.model.CounterRule;
+import mgr.mkaminski.service.CounterRuleService;
 
 @Service
 @Transactional

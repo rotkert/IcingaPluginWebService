@@ -1,8 +1,9 @@
-package mgr.mkaminski.dao;
+package mgr.mkaminski.dao.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import mgr.mkaminski.dao.RuleIdSeqDAO;
 import mgr.mkaminski.model.RuleIdSeq;
 import mgr.mkaminski.util.HibernateUtil;
 

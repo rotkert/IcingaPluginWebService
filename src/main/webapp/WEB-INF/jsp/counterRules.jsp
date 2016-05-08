@@ -16,14 +16,14 @@
 </head>
 <body class=".container-fluid">
 	<div class="container myrow-container">
-		<div class="panel panel-success">
+		<div class="panel panel-primary">
 			<div class="panel-heading">
 				<h3 class="panel-title">
 					<div align="left">
 						<b>Counter Rules</b>
 					</div>
 					<div align="right">
-						<a href="counterRuleDetails?ruleId=-1">Add Counter Rule</a>
+						<a href="counterRuleDetails?ruleId=-1" style="color:white">Add Counter Rule</a>
 					</div>
 				</h3>
 			</div>

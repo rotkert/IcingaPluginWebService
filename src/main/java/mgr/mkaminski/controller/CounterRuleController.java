@@ -1,7 +1,9 @@
 package mgr.mkaminski.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import mgr.mkaminski.model.CounterObject;
 import mgr.mkaminski.model.CounterRule;
+import mgr.mkaminski.service.CounterObjectService;
 import mgr.mkaminski.service.CounterRuleService;
 import mgr.mkaminski.service.RuleIdSeqService;
  
@@ -24,6 +28,9 @@ public class CounterRuleController {
 	@Autowired
 	private RuleIdSeqService ruleIdSeqService;
 	
+	@Autowired
+	private CounterObjectService counterObjectService;
+	
 	@RequestMapping("counterRules")
 	public ModelAndView getCounterRules() {
 		TreeMap<Long, ArrayList<CounterRule>> counterRules = counterRuleService.getGroupedCounterRules();
@@ -33,7 +40,12 @@ public class CounterRuleController {
 	@RequestMapping("counterRuleDetails")
 	public ModelAndView openCounterRuleDetails(@RequestParam int ruleId, @ModelAttribute CounterRule counterRule) {
 		List<CounterRule> counterRules = counterRuleService.getCounterRulesForRuleId(ruleId);
-		return new ModelAndView("counterRuleDetails", "counterRules", counterRules);
+		List<CounterObject> counterObjects = counterObjectService.getCounterObjects();
+		
+		Map<String, List<?>> modelMap = new HashMap<>();
+		modelMap.put("counterRules", counterRules);
+		modelMap.put("counterObjects", counterObjects);
+		return new ModelAndView("counterRuleDetails", "modelMap", modelMap);
 	}
 	
 	@RequestMapping(value="saveCounterRule")

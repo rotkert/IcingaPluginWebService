@@ -1,4 +1,4 @@
-package mgr.mkaminski.dao;
+package mgr.mkaminski.dao.impl;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import mgr.mkaminski.dao.CounterRuleDAO;
 import mgr.mkaminski.model.CounterRule;
 import mgr.mkaminski.util.HibernateUtil;
 

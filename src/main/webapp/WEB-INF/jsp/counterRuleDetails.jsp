@@ -52,7 +52,7 @@
 						<b>Counter Rule Details</b>
 					</div>
 					<div align="right">
-						<a href="counterRules">Back to list</a>
+						<a href="counterRules" style="color:white">Back to list</a>
 					</div>
 				</h3>
 			</div>
@@ -70,7 +70,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach items="${counterRules}" var="cr">
+						<c:forEach items="${modelMap.counterRules}" var="cr">
 							<tr>
 								<td><c:out value="${cr.category}" /></td>
 								<td><c:out value="${cr.instance}" /></td>
@@ -89,7 +89,14 @@
 							<form:hidden path="id" value="${counterRuleObject.id}"/>
 							<form:hidden path="ruleId" value='<%= request.getParameter("ruleId") %>'/>
 							<tr>
-								<td><form:input type="text" class="form-control" path="category" value="${counterRuleObject.category}"/></td>
+								<td>
+									<form:select class="form-control" path="category" value="${counterRuleObject.category}">
+										<option value=""></option>
+										<c:forEach items="${modelMap.counterObjects}" var="category">
+											<option value="${category.name}"><c:out value="${category.name}"/></option>
+										</c:forEach>
+									</form:select>
+								</td>
 								<td><form:input type="text" class="form-control" path="instance" value="${counterRuleObject.instance}"/></td>
 								<td><form:input type="text" class="form-control" path="name" value="${counterRuleObject.name}"/></td>
 								<td><form:input type="text" class="form-control" path="threshold" value="${counterRuleObject.threshold}"/></td>
