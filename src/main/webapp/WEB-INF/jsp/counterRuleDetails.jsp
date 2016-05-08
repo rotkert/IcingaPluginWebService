@@ -45,12 +45,18 @@
 	</script>
 	
 	<div class="container myrow-container">
-		<div class="panel panel-success">
+		<div class="panel panel-primary">
 			<div class="panel-heading">
-				<h3 class="panel-title">Counter Rule Details</h3>
+				<h3 class="panel-title">
+					<div align="left">
+						<b>Counter Rule Details</b>
+					</div>
+					<div align="right">
+						<a href="counterRules">Back to list</a>
+					</div>
+				</h3>
 			</div>
 			<div class="panel-body">
-
 				<table id="rules" class="table table-stripped">
 					<thead>
 						<tr>
@@ -72,6 +78,11 @@
 								<td><c:out value="${cr.threshold}" /></td>
 								<td><c:out value="${cr.minPeriod}" /></td>
 								<td><c:out value="${cr.isAbove}" /></td>
+								<td align="center">
+									<a href='deleteCounterRule?id=${cr.id}&ruleId=<%= request.getParameter("ruleId") %>'>
+									<span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+									
+								</td>
 							</tr>
 						</c:forEach>
 						<form:form id="newCounterRuleForm" modelAttribute="counterRule" method="post" action="saveCounterRule">
@@ -84,12 +95,11 @@
 								<td><form:input type="text" class="form-control" path="threshold" value="${counterRuleObject.threshold}"/></td>
 								<td><form:input type="text" class="form-control" path="minPeriod" value="${counterRuleObject.minPeriod}"/></td>
 								<td><form:input type="text" class="form-control" path="isAbove" value="${counterRuleObject.isAbove}"/></td>
-								<td><input type="submit" id="addCounterRule" class="btn btn-primary" value="Add"/></td>
+								<td><input type="submit" id="addCounterRule" class="btn btn-success" value="Add"/></td>
 							</tr>
 						</form:form>
 					</tbody>
 				</table>
-
 			</div>
 		</div>
 	</div>

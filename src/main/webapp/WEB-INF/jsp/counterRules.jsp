@@ -23,38 +23,39 @@
 						<b>Counter Rules</b>
 					</div>
 					<div align="right">
-						<a href="createCounterRule?ruleId=2">Add Counter Rule</a>
+						<a href="counterRuleDetails?ruleId=-1">Add Counter Rule</a>
 					</div>
 				</h3>
 			</div>
 			<div class="panel-body">
-				<table class="table table-condensed" style="border-collapse: collapse;">
+				<table class="table table-condensed" style="border-collapse: collapse;" id="rulesTable">
 					<tbody>
 						<c:forEach items="${counterRules}" var="map">
 							<tr>
-								<td>
-									<table style="width: 100%">
-										<tbody>
-											<tr data-toggle="collapse" data-target="#ruleDetails${map.key}" class="accordion-toggle">
-												<td rowspan=2><c:out value="${map.key}"></c:out></td>
-												<c:forEach items="${map.value}" var="cr">
-													<td><c:out value="${cr.category}${cr.instance}\\${cr.name}" /></td>
-												</c:forEach>
-											</tr>
-											<tr id="ruleDetails${map.key}" class="accordian-body collapse">
-												<c:forEach items="${map.value}" var="cr">
-													<td>
-														<ul>
-															<li><c:out value="${cr.threshold}" /></li>
-															<li><c:out value="${cr.minPeriod}" /></li>
-														</ul>
-													</td>
-												</c:forEach>
-											</tr>
-										</tbody>
-									</table>
-								</td>
+								<td><c:out value="${map.key}"></c:out></td>
+								<c:forEach items="${map.value}" var="cr">
+									<td data-toggle="collapse" data-target=".ruleDetails${map.key}" class="accordion-toggle"><c:out
+											value="${cr.category}(${cr.instance})\\${cr.name}" /></td>
+								</c:forEach>
+								<td align="right"><a href="counterRuleDetails?ruleId=${map.key}" class="editButton"> <span class="glyphicon glyphicon-edit"
+										aria-hidden="true"></span>
+								</a></td>
 							</tr>
+								<tr>
+									<td></td>
+									<c:forEach items="${map.value}" var="cr">
+										<td >
+											<div class="accordian-body collapse ruleDetails${map.key}">
+												<ul>
+													<li><c:out value="${cr.threshold}" /></li>
+													<li><c:out value="${cr.minPeriod}" /></li>
+													<li><c:out value="${cr.isAbove}" /></li>
+												</ul>
+											</div>
+										</td>
+									</c:forEach>
+									<td></td>
+								</tr>
 						</c:forEach>
 					</tbody>
 				</table>
@@ -67,5 +68,27 @@
 	<%-- <script src="<c:url value="/resources/js/jquery-2.1.3.js"/>"></script>
 <script src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
 --%>
+	<script>
+		$(document).ready(function() {
+			moveLastCellRight();
+		});
+
+		function moveLastCellRight() {
+			var maxLength = 0;
+			$('#rulesTable tr').each(function(index, element) {
+				var length = element.cells.length;
+				if (length > maxLength) {
+					maxLength = length;
+				}
+			});
+
+			$('#rulesTable tr').each(
+					function(index, element) {
+						var length = element.cells.length;
+						$(this).find('td:last').attr('colspan',
+								maxLength - length + 1);
+					});
+		}
+	</script>
 </body>
 </html>

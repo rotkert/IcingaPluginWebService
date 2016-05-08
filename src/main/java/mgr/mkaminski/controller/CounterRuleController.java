@@ -30,10 +30,10 @@ public class CounterRuleController {
 		return new ModelAndView("counterRules", "counterRules", counterRules);
 	}
 	
-	@RequestMapping("createCounterRule")
+	@RequestMapping("counterRuleDetails")
 	public ModelAndView openCounterRuleDetails(@RequestParam int ruleId, @ModelAttribute CounterRule counterRule) {
 		List<CounterRule> counterRules = counterRuleService.getCounterRulesForRuleId(ruleId);
-		return new ModelAndView("counterRuleForm", "counterRules", counterRules);
+		return new ModelAndView("counterRuleDetails", "counterRules", counterRules);
 	}
 	
 	@RequestMapping(value="saveCounterRule")
@@ -45,7 +45,13 @@ public class CounterRuleController {
 		}
 		counterRuleService.createCounterRule(counterRule);
 		
-		return new ModelAndView("redirect:createCounterRule?ruleId=" + ruleId);
+		return new ModelAndView("redirect:counterRuleDetails?ruleId=" + ruleId);
+	}
+	
+	@RequestMapping(value="deleteCounterRule")
+	public ModelAndView deleteCounterRule(@RequestParam long id, @RequestParam long ruleId) {
+		counterRuleService.deleteCounterRule(id);
+		return new ModelAndView("redirect:counterRuleDetails?ruleId=" + ruleId);
 	}
 }
 
