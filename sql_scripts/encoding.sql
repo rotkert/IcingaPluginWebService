@@ -1,0 +1,1 @@
+ALTER TABLE counter_object MODIFY COLUMN name TEXT CHARACTER SET utf8;
