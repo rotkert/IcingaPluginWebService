@@ -19,27 +19,57 @@
 </style>
 </head>
 <body class=".container-fluid">
+	<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 	<script type="text/javascript">
-		function addRule() {
-			var data = {}
-			data["ruleId"] = "${ruleId}";
-			data["category"] = $("#category").val();
-			data["instance"] = $("#instance").val();
-			data["name"] = $("#name").val();
-			data["threshold"] = $("#threshold").val();
-			data["minPeriod"] = $("#minPeriod").val();
-			data["isAbove"] = $("#isAbove").val();
-			
+		
+		$(document).ready(function() {
+			$('#counterCategory').change(function() {
+				var categoryId = $(this).find(":selected").get(0).id;
+				getCounters(categoryId);
+			});
+		});
+		
+		function getCounters(categoryId) {
 			$.ajax({
-				type: "POST",
-				url: "saveCounterRule",
-				data: data,
-				success: function (data) {
-					alert("udalo sie");
-				},
-				error: function (e) {
-					alert("blad " + e.responseText);
+				type: "GET",
+				url: "getCountersForCategory",
+				data: {categoryId: categoryId},
+				success: function(data) {
+					finishGetCounters(data);
 				}
+			});
+		}
+		
+		function finishGetCounters(responseData) {
+			var response = $.parseJSON(responseData);
+			
+			var counterNames = response.counters;
+			var cnSelect = $("#counterName");
+			cnSelect.prop('disabled', false);
+			cnSelect.empty();
+			cnSelect.append("<option value=''></option>")
+			
+			$.each(counterNames, function(index, elem) {
+				var optionStr = "<option value='" + elem.name +"'>" + elem.name + "</option>";
+				cnSelect.append(optionStr);
+			});
+			
+			var counterInstances = response.instances;
+			var ciSelect = $("#counterInstance");
+			ciSelect.empty();
+			
+			if(counterInstances.length == 0) {
+				ciSelect.prop('disabled', true);
+				return;
+			}
+			
+			ciSelect.prop('disabled', false);
+			ciSelect.append("<option value=''></option>")
+			
+			
+			$.each(counterInstances, function(index, elem) {
+				var optionStr = "<option value='" + elem.name +"'>" + elem.name + "</option>";
+				ciSelect.append(optionStr);
 			});
 		}
 	</script>
@@ -90,15 +120,15 @@
 							<form:hidden path="ruleId" value='<%= request.getParameter("ruleId") %>'/>
 							<tr>
 								<td>
-									<form:select class="form-control" path="category" value="${counterRuleObject.category}">
+									<form:select id="counterCategory" class="form-control" path="category" value="${counterRuleObject.category}">
 										<option value=""></option>
 										<c:forEach items="${modelMap.counterObjects}" var="category">
-											<option value="${category.name}"><c:out value="${category.name}"/></option>
+											<option id= "${category.id}" value="${category.name}"><c:out value="${category.name}"/></option>
 										</c:forEach>
 									</form:select>
 								</td>
-								<td><form:input type="text" class="form-control" path="instance" value="${counterRuleObject.instance}"/></td>
-								<td><form:input type="text" class="form-control" path="name" value="${counterRuleObject.name}"/></td>
+								<td><form:select id="counterInstance" class="form-control" path="instance" value="${counterRuleObject.instance}" style="width:120px" disabled="true"/></td>
+								<td><form:select id="counterName" class="form-control" path="name" value="${counterRuleObject.name}" style="width:120px" disabled="true"/></td>
 								<td><form:input type="text" class="form-control" path="threshold" value="${counterRuleObject.threshold}"/></td>
 								<td><form:input type="text" class="form-control" path="minPeriod" value="${counterRuleObject.minPeriod}"/></td>
 								<td><form:input type="text" class="form-control" path="isAbove" value="${counterRuleObject.isAbove}"/></td>
