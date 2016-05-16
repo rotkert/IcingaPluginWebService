@@ -1,4 +1,4 @@
-package mgr.mkaminski.config;
+package mgr.mkaminski.api.config;
 
 import java.util.List;
 

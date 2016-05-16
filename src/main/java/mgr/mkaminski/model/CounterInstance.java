@@ -2,8 +2,10 @@ package mgr.mkaminski.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="counter_instance")
 public class CounterInstance {
 	
 	@Id

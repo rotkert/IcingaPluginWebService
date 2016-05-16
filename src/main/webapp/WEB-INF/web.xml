@@ -5,18 +5,19 @@
 	id="WebApp_ID" version="2.5">
 
 	<display-name>jaxwsExample</display-name>
-
+	
 	<listener>
-		<listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+	
 	<servlet>
-		<servlet-name>icingaWebService</servlet-name>
-		<servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+		<servlet-name>IcingaWebService</servlet-name>
+		<servlet-class>com.sun.xml.ws.transport.http.servlet.WSSpringServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>icingaWebService</servlet-name>
-		<url-pattern>/icingaWebService</url-pattern>
+		<servlet-name>IcingaWebService</servlet-name>
+		<url-pattern>/pluginApi</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -33,4 +34,6 @@
 	<session-config>
 		<session-timeout>120</session-timeout>
 	</session-config>
+	
+	
 </web-app>

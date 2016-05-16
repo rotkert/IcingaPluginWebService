@@ -1,4 +1,4 @@
-package mgr.mkaminski.config;
+package mgr.mkaminski.api.config;
 
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;

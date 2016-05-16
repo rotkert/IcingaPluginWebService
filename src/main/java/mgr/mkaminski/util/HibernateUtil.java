@@ -3,7 +3,10 @@ package mgr.mkaminski.util;
 import java.io.Serializable;
 import java.util.List;
 
+import org.hibernate.Criteria;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -43,5 +46,12 @@ public class HibernateUtil {
 	@SuppressWarnings("unchecked")
 	public <T> T fetchById(Serializable id, Class<T> entityClass) {
 		return (T) sessionFactory.getCurrentSession().get(entityClass, id);
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public <T> List fetchByColumn(String columnName, Object value, Class<T> entityClass) {
+		Session session = sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(entityClass);
+		return criteria.add(Restrictions.eq(columnName, value)).list();
 	}
 }
