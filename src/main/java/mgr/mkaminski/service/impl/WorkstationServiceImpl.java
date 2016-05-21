@@ -42,5 +42,10 @@ public class WorkstationServiceImpl implements WorkstationService{
 	public List<Workstation> getWorkStationsByGroupId(int groupId) {
 		return workstationDAO.getWorkstationByGroupId(groupId);
 	}
+
+	@Override
+	public Workstation getWorkstationById(int id) {
+		return workstationDAO.getWorkstationById(id);
+	}
 	
 }

@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>CounterRules</title>
+<title>Workstations</title>
 <!-- Bootstrap CSS -->
 <%-- <link href="<c:url value="/resources/css/bootstrap.min.css" />" rel="stylesheet"> --%>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -22,8 +22,8 @@
 		<div class="row">
 			<div class="col-md-3" id="leftCol">
 				<ul class="nav nav-stacked menu" id="sidebar">
-					<c:forEach items="${groups }" var="group">
-						<li><a href="javascript:getWorkstations(${group.id}, '${group.name}')" class="list-group-item">${group.name }</a>
+					<c:forEach items="${modelMap['groups'] }" var="group">
+						<li><a href="javascript:getWorkstations(${group.id})" class="list-group-item">${group.name }</a>
 					</c:forEach>
 				</ul>
 			</div>
@@ -42,6 +42,7 @@
 								<tr>
 									<th>Name</th>
 									<th>Description</th>
+									<th></th>
 								</tr>
 							</thead>
 							<tbody id="workstationsTableBody">
@@ -51,39 +52,118 @@
 				</div>
 			</div>
 		</div>
+	</div>
 
-		<script>
-			$(document).ready(function() {
-				getWorkstations("${groups[0].id}", "${groups[0].name}");
+	<!-- Modal -->
+	<div id="moveModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Select new group</h4>
+				</div>
+				<div class="modal-body">
+					<form id="moveWorkstationForm" method="get" action="moveWorkstation">
+						<input type="hidden" id="movedWorkstationId" name="workstationId" value="" /> 
+						<select name="groupId" class="form-control">
+							<c:forEach items="${modelMap['groups'] }" var="group">
+								<option value="${group.id}"><c:out value="${group.name}" /></option>
+							</c:forEach>
+						</select>
+						<div class="modal-footer">
+							<input type="reset" class="btn btn-default" data-dismiss="modal" value="Cancel" /> 
+							<input type="submit" id="moveWorkstationBtn" class="btn btn-success" value="Accept" />
+						</div>
+					</form>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	
+	<!-- Modal -->
+	<div id="newGroupModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">CreateNewGroup</h4>
+				</div>
+				<div class="modal-body">
+					<form id="newWorkstationsGroupForm" method="get" action="createWorkstationsGroup">
+						<input type="hidden" id="newGroupWorkstationId" name="workstationId" value="" />
+						<label>Name:</label>
+						<input type="text" class="form-control" name="name"/>
+						<label>Description:</label>
+						<input type="text" class="form-control" name="desc"/>
+						<div class="modal-footer">
+							<input type="reset" class="btn btn-default" data-dismiss="modal" value="Cancel" /> 
+							<input type="submit" class="btn btn-success" value="Accept" />
+						</div>
+					</form>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<script>
+		var groupMap = {};
+		<c:forEach items="${modelMap['groups']}" var="group">
+			groupMap[${group.id}] = "${group.name}";
+		</c:forEach>
+
+		$(document).ready(function() {
+			getWorkstations("${modelMap['selectedGroup']}");
+		});
+
+		$("#moveModal").on("shown.bs.modal", function(e) {
+			var workstationId = e.relatedTarget.value;
+			$("#movedWorkstationId").val(workstationId);
+		});
+		
+		$("#newGroupModal").on("shown.bs.modal", function(e) {
+			var workstationId = e.relatedTarget.value;
+			$("#newGroupWorkstationId").val(workstationId);
+		});
+
+		function getWorkstations(groupId) {
+
+			$.ajax({
+				type : "GET",
+				url : "getWorkstationsForGroup",
+				data : {
+					groupId : groupId
+				},
+				success : function(data) {
+					finishGetWorkstations(data, groupId);
+				}
+			});
+		}
+
+		function finishGetWorkstations(responseData, groupId) {
+			var workstations = $.parseJSON(responseData);
+			var wsTableHtml = "";
+
+			$.each(workstations, function(index, elem) {
+				wsTableHtml += "<tr>";
+				wsTableHtml += "<td>" + elem.name + "</td>";
+				wsTableHtml += "<td>" + elem.description+ "</td>";
+				wsTableHtml += "<td>";
+				wsTableHtml += "<button type='button' class='btn btn-info' data-toggle='modal' data-target='#moveModal' value='" + elem.id + "'>Move</button>";
+				wsTableHtml += "</td>";
+				wsTableHtml += "<td>";
+				wsTableHtml += "<button type='button' class='btn btn-info' data-toggle='modal' data-target='#newGroupModal' value='" + elem.id + "'>New group</button>";
+				wsTableHtml += "</td>";
+				wsTableHtml += "</tr>";
+				
 			});
 
-			function getWorkstations(groupId, groupName) {
-				$("#groupNameLabel").html(groupName);
-				
-				$.ajax({
-					type : "GET",
-					url : "getWorkstations",
-					data : {
-						groupId : groupId
-					},
-					success : function(data) {
-						finishGetWorkstations(data);
-					}
-				});
-			}
-			
-			function finishGetWorkstations(responseData) {
-				var workstations = $.parseJSON(responseData);
-				var wsTableHtml = "";
-				
-				$.each(workstations, function(index, elem) {
-					wsTableHtml += "<tr><td>" + elem.name + "</td><td>" + elem.description + "</td></tr>";
-				});
-				
-				var wsTable = $("#workstationsTableBody");
-				wsTable.empty();
-				wsTable.html(wsTableHtml);
-			}
-		</script>
+			var wsTable = $("#workstationsTableBody");
+			wsTable.empty();
+			wsTable.html(wsTableHtml);
+			$("#groupNameLabel").html(groupMap[groupId]);
+		}
+	</script>
 </body>
 </html>

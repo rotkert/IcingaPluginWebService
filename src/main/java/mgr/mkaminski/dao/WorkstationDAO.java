@@ -11,4 +11,5 @@ public interface WorkstationDAO {
 	public List<Workstation> getWorkstatinons();
 	public Workstation getWorkstationByToken(UUID token);
 	public List<Workstation> getWorkstationByGroupId(int groupId);
+	public Workstation getWorkstationById(int id);
  }

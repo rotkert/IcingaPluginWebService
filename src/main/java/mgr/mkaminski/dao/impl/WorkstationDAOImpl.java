@@ -47,5 +47,10 @@ public class WorkstationDAOImpl implements WorkstationDAO {
 	public List<Workstation> getWorkstationByGroupId(int groupId) {
 		return hibernateUtil.fetchByColumn("groupId", groupId, Workstation.class);
 	}
+
+	@Override
+	public Workstation getWorkstationById(int id) {
+		return hibernateUtil.fetchById(id, Workstation.class);
+	}
 }
 	

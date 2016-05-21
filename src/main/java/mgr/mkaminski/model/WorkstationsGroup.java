@@ -25,6 +25,10 @@ public class WorkstationsGroup {
 	@Column
 	private Date lastModification;
 
+	public WorkstationsGroup() {
+		lastModification = new Date();
+	}
+	
 	public int getId() {
 		return id;
 	}

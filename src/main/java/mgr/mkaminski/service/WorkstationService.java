@@ -11,4 +11,5 @@ public interface WorkstationService {
 	public List<Workstation> getWorkstatinons();
 	public Workstation getWorkstationByToken(UUID token);
 	public List<Workstation> getWorkStationsByGroupId(int groupId);
+	public Workstation getWorkstationById(int id);
 }
