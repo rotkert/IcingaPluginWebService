@@ -2,6 +2,7 @@ package mgr.mkaminski.api;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.jws.WebMethod;
@@ -19,7 +20,11 @@ import mgr.mkaminski.api.config.CfgCounterRule;
 import mgr.mkaminski.api.config.CfgCounterRulesWrapper;
 import mgr.mkaminski.api.config.CfgRule;
 import mgr.mkaminski.api.config.CfgRulesWrapper;
+import mgr.mkaminski.api.receiving.CategoriesListFrom;
+import mgr.mkaminski.api.receiving.CategoryFrom;
+import mgr.mkaminski.model.CounterCategory;
 import mgr.mkaminski.model.Workstation;
+import mgr.mkaminski.service.CounterCategoryService;
 import mgr.mkaminski.service.WorkstationService;
 
 @Service("IcingaWebService")
@@ -31,6 +36,9 @@ public class IcingaWebService extends SpringBeanAutowiringSupport{
 	
 	@Autowired
 	private WorkstationService workstationService;
+	
+	@Autowired
+	private CounterCategoryService counterCategoryService;
 
 	@WebMethod(operationName = "processChecks")
 	public String processChecks(@WebParam(name = "checks") ChecksWrapper checks) {
@@ -106,5 +114,15 @@ public class IcingaWebService extends SpringBeanAutowiringSupport{
 		configRulesWrapper.setCfgRules(configRules);
 
 		return configRulesWrapper;
+	}
+	
+	@WebMethod(operationName="uploadCounters")
+	public void uploadCounters(@WebParam(name="categoriesList") CategoriesListFrom categoriesList) {
+		List<CategoryFrom> categories = categoriesList.getCategories();
+		for (CategoryFrom categoryFrom : categories) {
+			CounterCategory counterCategory = new CounterCategory();
+			counterCategory.setName(categoryFrom.getName());
+			counterCategoryService.createCounterCategory(counterCategory);
+		}
 	}
 }

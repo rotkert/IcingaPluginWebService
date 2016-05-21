@@ -19,10 +19,10 @@ import com.google.gson.Gson;
 
 import mgr.mkaminski.model.Counter;
 import mgr.mkaminski.model.CounterInstance;
-import mgr.mkaminski.model.CounterObject;
+import mgr.mkaminski.model.CounterCategory;
 import mgr.mkaminski.model.CounterRule;
 import mgr.mkaminski.service.CounterInstanceService;
-import mgr.mkaminski.service.CounterObjectService;
+import mgr.mkaminski.service.CounterCategoryService;
 import mgr.mkaminski.service.CounterRuleService;
 import mgr.mkaminski.service.CounterService;
 import mgr.mkaminski.service.RuleIdSeqService;
@@ -37,7 +37,7 @@ public class CounterRuleController {
 	private RuleIdSeqService ruleIdSeqService;
 	
 	@Autowired
-	private CounterObjectService counterObjectService;
+	private CounterCategoryService counterObjectService;
 	
 	@Autowired
 	private CounterService counterService;
@@ -54,7 +54,7 @@ public class CounterRuleController {
 	@RequestMapping("counterRuleDetails")
 	public ModelAndView openCounterRuleDetails(@RequestParam int ruleId, @ModelAttribute CounterRule counterRule) {
 		List<CounterRule> counterRules = counterRuleService.getCounterRulesForRuleId(ruleId);
-		List<CounterObject> counterObjects = counterObjectService.getCounterObjects();
+		List<CounterCategory> counterObjects = counterObjectService.getCounterCategories();
 		
 		Map<String, List<?>> modelMap = new HashMap<>();
 		modelMap.put("counterRules", counterRules);
