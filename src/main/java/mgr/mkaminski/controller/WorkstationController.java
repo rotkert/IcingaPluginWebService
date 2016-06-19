@@ -40,7 +40,7 @@ public class WorkstationController {
 		return new ModelAndView("workstations", "modelMap", modelMap);
 	}
 	
-	@RequestMapping(value="getWorkstationsForGroup", produces = "application/json")
+	@RequestMapping(value="getWorkstationsForGroup")
 	@ResponseBody
 	public String getWorkstationsForGroup(@RequestParam int groupId) {
 		List<Workstation> workstations = workstationService.getWorkStationsByGroupId(groupId);

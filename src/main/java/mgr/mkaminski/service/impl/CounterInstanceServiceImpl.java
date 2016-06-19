@@ -22,4 +22,9 @@ public class CounterInstanceServiceImpl implements CounterInstanceService{
 		return counterInstanceDAO.getInstancesForCategory(categoryId);
 	}
 
+	@Override
+	public void createCounterInstance(CounterInstance counterInstance) {
+		counterInstanceDAO.createCounterInstance(counterInstance);
+	}
+
 }

@@ -14,6 +14,8 @@ public class CounterCategory {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
+	private int groupId;
+
 	private String name;
 
 	public int getId() {
@@ -22,6 +24,14 @@ public class CounterCategory {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public int getGroupId() {
+		return groupId;
+	}
+
+	public void setGroupId(int groupId) {
+		this.groupId = groupId;
 	}
 
 	public String getName() {

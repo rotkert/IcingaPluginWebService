@@ -20,6 +20,9 @@ public class CounterRule implements Serializable{
 	private long id;
 	
 	@Column
+	private int groupId;
+	
+	@Column
 	private long ruleId;
 	
 	@Column
@@ -46,6 +49,14 @@ public class CounterRule implements Serializable{
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public int getGroupId() {
+		return groupId;
+	}
+
+	public void setGroupId(int groupId) {
+		this.groupId = groupId;
 	}
 
 	public long getRuleId() {

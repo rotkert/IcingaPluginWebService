@@ -22,4 +22,9 @@ public class CounterServiceImpl implements CounterService{
 		return counterDAO.getCountersForCategory(categoryId);
 	}
 
+	@Override
+	public void createCounter(Counter counter) {
+		counterDAO.createCounter(counter);
+	}
+
 }

@@ -35,9 +35,9 @@ public class CounterRuleServiceImpl implements CounterRuleService {
 	}
 
 	@Override
-	public TreeMap<Long, ArrayList<CounterRule>> getGroupedCounterRules() {
+	public TreeMap<Long, ArrayList<CounterRule>> getGroupedCounterRules(int groupId) {
 		TreeMap<Long, ArrayList<CounterRule>> groupedCounterRules = new TreeMap<>();
-		List<CounterRule> counterRules = counterRuleDAO.getAllCounterRules();
+		List<CounterRule> counterRules = counterRuleDAO.getCounterRulesByGroupId(groupId);
 
 		for (CounterRule counterRule : counterRules) {
 			long ruleId = counterRule.getRuleId();

@@ -1,6 +1,5 @@
 package mgr.mkaminski.dao.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,17 +18,11 @@ public class CounterDAOImpl implements CounterDAO{
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Counter> getCountersForCategory(int categoryId) {
-		String query = "select * from counter where counterObjectId = " + categoryId;
-		List<Object[]> counterObjects = hibernateUtil.fetchAll(query);
-		List<Counter> counters = new ArrayList<>();
-		
-		for (Object[] counterObject : counterObjects) {
-			Counter counter = new Counter();
-			counter.setId((int)counterObject[0]);
-			counter.setCounterObjectId((int)counterObject[1]);
-			counter.setName((String)counterObject[2]);
-			counters.add(counter);
-		}
-		return counters;
+		return hibernateUtil.fetchByColumn("counterCategoryId", categoryId, Counter.class);
+	}
+
+	@Override
+	public void createCounter(Counter counter) {
+		hibernateUtil.create(counter);
 	}
 }

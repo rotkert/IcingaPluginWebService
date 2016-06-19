@@ -6,4 +6,5 @@ import mgr.mkaminski.model.CounterInstance;
 
 public interface CounterInstanceService {
 	public List<CounterInstance> getCounterInstancesForCategory(int categoryId);
+	public void createCounterInstance(CounterInstance counterInstance);
 }

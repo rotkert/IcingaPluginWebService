@@ -1,6 +1,8 @@
 package mgr.mkaminski.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -9,9 +11,10 @@ import javax.persistence.Table;
 public class CounterInstance {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
-	private int counterObjectId;
+	private int counterCategoryId;
 	
 	private String name;
 
@@ -23,12 +26,12 @@ public class CounterInstance {
 		this.id = id;
 	}
 
-	public int getCounterObjectId() {
-		return counterObjectId;
+	public int getCounterCategoryId() {
+		return counterCategoryId;
 	}
 
-	public void setCounterObjectId(int counterObjectId) {
-		this.counterObjectId = counterObjectId;
+	public void setCounterCategoryId(int counterCategoryId) {
+		this.counterCategoryId = counterCategoryId;
 	}
 
 	public String getName() {

@@ -33,9 +33,10 @@ public class CounterRuleDAOImpl implements CounterRuleDAO{
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<CounterRule> getAllCounterRules() {
-		return hibernateUtil.fetchAll(CounterRule.class);
+	public List<CounterRule> getCounterRulesByGroupId(int groupId) {
+		return hibernateUtil.fetchByColumn("groupId", groupId, CounterRule.class);
 	}
 
 	@Override

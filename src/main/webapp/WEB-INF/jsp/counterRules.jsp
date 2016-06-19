@@ -23,7 +23,7 @@
 						<b>Counter Rules</b>
 					</div>
 					<div align="right">
-						<a href="counterRuleDetails?ruleId=-1" style="color:white">Add Counter Rule</a>
+						<a href='counterRuleDetails?ruleId=-1&groupId=<%=request.getParameter("groupId")%>' style="color:white">Add Counter Rule</a>
 					</div>
 				</h3>
 			</div>
@@ -37,7 +37,7 @@
 									<td data-toggle="collapse" data-target=".ruleDetails${map.key}" class="accordion-toggle"><c:out
 											value="${cr.category}(${cr.instance})\\${cr.name}" /></td>
 								</c:forEach>
-								<td align="right"><a href="counterRuleDetails?ruleId=${map.key}" class="editButton"> <span class="glyphicon glyphicon-edit"
+								<td align="right"><a href='counterRuleDetails?ruleId=${map.key}&groupId=<%=request.getParameter("groupId")%>' class="editButton"> <span class="glyphicon glyphicon-edit"
 										aria-hidden="true"></span>
 								</a></td>
 							</tr>

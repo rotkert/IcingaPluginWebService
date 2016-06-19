@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 @Entity
 @Table(name="workstation")
 public class Workstation {
@@ -17,6 +19,7 @@ public class Workstation {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	@Column
+	@Type(type="uuid-char")
 	private UUID token;
 	@Column
 	private String name;

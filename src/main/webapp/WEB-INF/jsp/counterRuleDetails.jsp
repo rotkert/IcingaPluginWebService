@@ -82,7 +82,7 @@
 						<b>Counter Rule Details</b>
 					</div>
 					<div align="right">
-						<a href="counterRules" style="color:white">Back to list</a>
+						<a href="counterRules?groupId=<%= request.getParameter("groupId") %>" style="color:white">Back to list</a>
 					</div>
 				</h3>
 			</div>
@@ -109,7 +109,7 @@
 								<td><c:out value="${cr.minPeriod}" /></td>
 								<td><c:out value="${cr.isAbove}" /></td>
 								<td align="center">
-									<a href='deleteCounterRule?id=${cr.id}&ruleId=<%= request.getParameter("ruleId") %>'>
+									<a href='deleteCounterRule?id=${cr.id}&ruleId=<%= request.getParameter("ruleId") %>&groupId=<%= request.getParameter("groupId") %>'>
 									<span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
 									
 								</td>
@@ -118,6 +118,7 @@
 						<form:form id="newCounterRuleForm" modelAttribute="counterRule" method="post" action="saveCounterRule">
 							<form:hidden path="id" value="${counterRuleObject.id}"/>
 							<form:hidden path="ruleId" value='<%= request.getParameter("ruleId") %>'/>
+							<form:hidden path="groupId" value='<%= request.getParameter("groupId") %>'/>
 							<tr>
 								<td>
 									<form:select id="counterCategory" class="form-control" path="category" value="${counterRuleObject.category}">

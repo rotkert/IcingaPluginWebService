@@ -6,4 +6,5 @@ import mgr.mkaminski.model.Counter;
 
 public interface CounterService {
 	public List<Counter> getCountersForCategory(int categoryId);
+	public void createCounter(Counter counter);
 }

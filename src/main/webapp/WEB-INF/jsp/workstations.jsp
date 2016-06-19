@@ -34,6 +34,9 @@
 							<div align="left">
 								<b id="groupNameLabel"></b>
 							</div>
+							<div align="right">
+								<a id="showRulesLink" href="" style="color: white">Show Rules</a>
+							</div>
 						</h3>
 					</div>
 					<div class="panel-body">
@@ -64,15 +67,14 @@
 				</div>
 				<div class="modal-body">
 					<form id="moveWorkstationForm" method="get" action="moveWorkstation">
-						<input type="hidden" id="movedWorkstationId" name="workstationId" value="" /> 
-						<select name="groupId" class="form-control">
+						<input type="hidden" id="movedWorkstationId" name="workstationId" value="" /> <select name="groupId" class="form-control">
 							<c:forEach items="${modelMap['groups'] }" var="group">
 								<option value="${group.id}"><c:out value="${group.name}" /></option>
 							</c:forEach>
 						</select>
 						<div class="modal-footer">
-							<input type="reset" class="btn btn-default" data-dismiss="modal" value="Cancel" /> 
-							<input type="submit" id="moveWorkstationBtn" class="btn btn-success" value="Accept" />
+							<input type="reset" class="btn btn-default" data-dismiss="modal" value="Cancel" /> <input type="submit" id="moveWorkstationBtn"
+								class="btn btn-success" value="Accept" />
 						</div>
 					</form>
 				</div>
@@ -80,7 +82,7 @@
 
 		</div>
 	</div>
-	
+
 	<!-- Modal -->
 	<div id="newGroupModal" class="modal fade" role="dialog">
 		<div class="modal-dialog">
@@ -91,14 +93,11 @@
 				</div>
 				<div class="modal-body">
 					<form id="newWorkstationsGroupForm" method="get" action="createWorkstationsGroup">
-						<input type="hidden" id="newGroupWorkstationId" name="workstationId" value="" />
-						<label>Name:</label>
-						<input type="text" class="form-control" name="name"/>
-						<label>Description:</label>
-						<input type="text" class="form-control" name="desc"/>
+						<input type="hidden" id="newGroupWorkstationId" name="workstationId" value="" /> <label>Name:</label> <input type="text"
+							class="form-control" name="name" /> <label>Description:</label> <input type="text" class="form-control" name="desc" />
 						<div class="modal-footer">
-							<input type="reset" class="btn btn-default" data-dismiss="modal" value="Cancel" /> 
-							<input type="submit" class="btn btn-success" value="Accept" />
+							<input type="reset" class="btn btn-default" data-dismiss="modal" value="Cancel" /> <input type="submit" class="btn btn-success"
+								value="Accept" />
 						</div>
 					</form>
 				</div>
@@ -163,6 +162,7 @@
 			wsTable.empty();
 			wsTable.html(wsTableHtml);
 			$("#groupNameLabel").html(groupMap[groupId]);
+			$("#showRulesLink").attr("href", "counterRules?groupId=" + groupId);
 		}
 	</script>
 </body>

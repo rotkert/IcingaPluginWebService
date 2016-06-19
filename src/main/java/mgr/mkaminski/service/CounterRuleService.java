@@ -13,7 +13,7 @@ public interface CounterRuleService {
 
 	public void deleteCounterRule(long id);
 
-	public TreeMap<Long, ArrayList<CounterRule>> getGroupedCounterRules();
+	public TreeMap<Long, ArrayList<CounterRule>> getGroupedCounterRules(int groupId);
 
 	public CounterRule getCounterRule(long id);
 

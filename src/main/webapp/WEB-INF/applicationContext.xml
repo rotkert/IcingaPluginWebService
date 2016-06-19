@@ -16,10 +16,10 @@
        	http://jax-ws.java.net/spring/core.xsd
        	http://jax-ws.dev.java.net/spring/servlet
        	http://jax-ws.java.net/spring/servlet.xsd">
-	
-		<context:component-scan base-package="mgr.mkaminski" />
 
-	
+	<context:component-scan base-package="mgr.mkaminski" />
+
+
 
 	<!-- Getting Database properties -->
 	<context:property-placeholder location="classpath:application.properties" />
@@ -61,8 +61,8 @@
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
 
-	
-	
+
+
 	<bean id="IcingaWebService" class="mgr.mkaminski.api.IcingaWebService">
 	</bean>
 
@@ -72,5 +72,14 @@
 		</wss:service>
 	</wss:binding>
 
-
+	<mvc:annotation-driven>
+		<!-- register custom converter that returns UTF-8 encoded response-body 
+			by defualt -->
+		<mvc:message-converters register-defaults="true">
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<constructor-arg index="0" name="defaultCharset"
+					value="UTF-8" />
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
 </beans>

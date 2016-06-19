@@ -8,7 +8,7 @@ public interface CounterRuleDAO {
 	public long createCounterRule(CounterRule counterRule);
 	public CounterRule updateCounterRule(CounterRule counterRule);
 	public void deleteCounterRule(long id);
-	public List<CounterRule> getAllCounterRules();
+	public List<CounterRule> getCounterRulesByGroupId(int groupId);
 	public CounterRule getCounterRule(long id); 
 	public List<CounterRule> getCounterRulesForRuleId(long ruleId);
 }

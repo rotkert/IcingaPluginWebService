@@ -18,11 +18,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 
 import mgr.mkaminski.model.Counter;
-import mgr.mkaminski.model.CounterInstance;
 import mgr.mkaminski.model.CounterCategory;
+import mgr.mkaminski.model.CounterInstance;
 import mgr.mkaminski.model.CounterRule;
-import mgr.mkaminski.service.CounterInstanceService;
 import mgr.mkaminski.service.CounterCategoryService;
+import mgr.mkaminski.service.CounterInstanceService;
 import mgr.mkaminski.service.CounterRuleService;
 import mgr.mkaminski.service.CounterService;
 import mgr.mkaminski.service.RuleIdSeqService;
@@ -46,17 +46,17 @@ public class CounterRuleController {
 	private CounterInstanceService counterInstanceService;
 	
 	@RequestMapping("counterRules")
-	public ModelAndView getCounterRules() {
-		TreeMap<Long, ArrayList<CounterRule>> counterRules = counterRuleService.getGroupedCounterRules();
+	public ModelAndView getCounterRules(@RequestParam int groupId) {
+		TreeMap<Long, ArrayList<CounterRule>> counterRules = counterRuleService.getGroupedCounterRules(groupId);
 		return new ModelAndView("counterRules", "counterRules", counterRules);
 	}
 	
 	@RequestMapping("counterRuleDetails")
-	public ModelAndView openCounterRuleDetails(@RequestParam int ruleId, @ModelAttribute CounterRule counterRule) {
+	public ModelAndView openCounterRuleDetails(@RequestParam int ruleId, @RequestParam int groupId,  @ModelAttribute CounterRule counterRule) {
 		List<CounterRule> counterRules = counterRuleService.getCounterRulesForRuleId(ruleId);
 		List<CounterCategory> counterObjects = counterObjectService.getCounterCategories();
 		
-		Map<String, List<?>> modelMap = new HashMap<>();
+		Map<String, Object> modelMap = new HashMap<>();
 		modelMap.put("counterRules", counterRules);
 		modelMap.put("counterObjects", counterObjects);
 		return new ModelAndView("counterRuleDetails", "modelMap", modelMap);
@@ -64,6 +64,8 @@ public class CounterRuleController {
 	
 	@RequestMapping(value="saveCounterRule")
 	public ModelAndView saveCounterRule(@ModelAttribute CounterRule counterRule) {
+		System.out.println(counterRule.getCategory());
+		int groupId = counterRule.getGroupId();
 		long ruleId = counterRule.getRuleId();
 		if(ruleId == -1) {
 			ruleId = ruleIdSeqService.nextValue();
@@ -71,17 +73,17 @@ public class CounterRuleController {
 		}
 		counterRuleService.createCounterRule(counterRule);
 		
-		return new ModelAndView("redirect:counterRuleDetails?ruleId=" + ruleId);
+		return new ModelAndView("redirect:counterRuleDetails?ruleId=" + ruleId + "&groupId=" + groupId);
 	}
 	
 	@RequestMapping(value="deleteCounterRule")
-	public ModelAndView deleteCounterRule(@RequestParam long id, @RequestParam long ruleId) {
+	public ModelAndView deleteCounterRule(@RequestParam long id, @RequestParam long ruleId, @RequestParam int groupId) {
 		counterRuleService.deleteCounterRule(id);
-		return new ModelAndView("redirect:counterRuleDetails?ruleId=" + ruleId);
+		return new ModelAndView("redirect:counterRuleDetails?ruleId=" + ruleId + "&groupId=" + groupId);
 	}
 	
 	@SuppressWarnings("rawtypes")
-	@RequestMapping(value="getCountersForCategory", produces = "application/json")
+	@RequestMapping(value="getCountersForCategory")
 	@ResponseBody
 	public String getCountersForCategory(@RequestParam int categoryId) {
 		HashMap<String, List> responseMap = new HashMap<>();

@@ -22,9 +22,13 @@ import mgr.mkaminski.api.config.CfgRule;
 import mgr.mkaminski.api.config.CfgRulesWrapper;
 import mgr.mkaminski.api.receiving.CategoriesListFrom;
 import mgr.mkaminski.api.receiving.CategoryFrom;
+import mgr.mkaminski.model.Counter;
 import mgr.mkaminski.model.CounterCategory;
+import mgr.mkaminski.model.CounterInstance;
 import mgr.mkaminski.model.Workstation;
 import mgr.mkaminski.service.CounterCategoryService;
+import mgr.mkaminski.service.CounterInstanceService;
+import mgr.mkaminski.service.CounterService;
 import mgr.mkaminski.service.WorkstationService;
 
 @Service("IcingaWebService")
@@ -39,6 +43,12 @@ public class IcingaWebService extends SpringBeanAutowiringSupport{
 	
 	@Autowired
 	private CounterCategoryService counterCategoryService;
+	
+	@Autowired
+	private CounterInstanceService counterInstanceService;
+	
+	@Autowired
+	private CounterService counterService;
 
 	@WebMethod(operationName = "processChecks")
 	public String processChecks(@WebParam(name = "checks") ChecksWrapper checks) {
@@ -117,12 +127,58 @@ public class IcingaWebService extends SpringBeanAutowiringSupport{
 	}
 	
 	@WebMethod(operationName="uploadCounters")
-	public void uploadCounters(@WebParam(name="categoriesList") CategoriesListFrom categoriesList) {
+	public void uploadCounters(@WebParam(name="token") UUID token, @WebParam(name="categoriesList") CategoriesListFrom categoriesList) {
+		Workstation workstation = workstationService.getWorkstationByToken(token);
+
+		if(workstation == null) {
+			return;
+		}
+		
+		int groupId = workstation.getGroupId();
+		
+		if(groupId < 1) {
+			return;
+		}
+		
 		List<CategoryFrom> categories = categoriesList.getCategories();
 		for (CategoryFrom categoryFrom : categories) {
-			CounterCategory counterCategory = new CounterCategory();
-			counterCategory.setName(categoryFrom.getName());
-			counterCategoryService.createCounterCategory(counterCategory);
+			String categoryName = categoryFrom.getName();
+			List<String> instances = categoryFrom.getInstances();
+			List<String> counters = categoryFrom.getCounters();
+			
+			int categoryId = createCategory(groupId, categoryName);
+			createInstances(categoryId, instances);
+			createCounters(categoryId, counters);
+		}
+	}
+	
+	private int createCategory(int groupId, String name) {
+		CounterCategory counterCategory = new CounterCategory();
+		counterCategory.setName(name);
+		counterCategory.setGroupId(groupId);
+		counterCategoryService.createCounterCategory(counterCategory);
+		return counterCategory.getId();
+	}
+	
+	private void createInstances(int categoryId, List<String> instances) {
+		if(instances == null) {
+			return;
+		}
+		
+		for (String name : instances) {
+			CounterInstance counterInstance = new CounterInstance();
+			counterInstance.setCounterCategoryId(categoryId);
+			counterInstance.setName(name);
+			counterInstanceService.createCounterInstance(counterInstance);
+		}
+	}
+	
+	private void createCounters(int categoryId, List<String> counters) {
+		for (String name : counters) {
+			Counter counter = new Counter();
+			counter.setCounterCategoryId(categoryId);
+			counter.setName(name);
+			counterService.createCounter(counter);
 		}
 	}
 }
