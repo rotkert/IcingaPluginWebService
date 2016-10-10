@@ -63,4 +63,11 @@ public class WorkstationController {
 		int workstationGroupId = workstationsGroupService.createWorkstationsGroup(workstationId, name, desc);
 		return new ModelAndView("redirect:workstations?groupId=" + workstationGroupId);
 	}
+	
+	@RequestMapping(value="discardWorkstation")
+	@ResponseBody
+	public void discardWorkstation(@RequestParam int workstationId) {
+		Workstation workstation = workstationService.getWorkstationById(workstationId);
+		workstationService.deleteWorkstation(workstation);
+	}
 }

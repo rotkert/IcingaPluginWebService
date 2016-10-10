@@ -27,6 +27,11 @@ public class WorkstationServiceImpl implements WorkstationService{
 	public void updateWorkstation(Workstation workstation) {
 		workstationDAO.updateWorkstation(workstation);
 	}
+	
+	@Override
+	public void deleteWorkstation(Workstation workstation) {
+		workstationDAO.deleteWorkstation(workstation);
+	}
 
 	@Override
 	public List<Workstation> getWorkstatinons() {

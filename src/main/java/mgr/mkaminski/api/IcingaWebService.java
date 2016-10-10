@@ -22,6 +22,7 @@ import mgr.mkaminski.api.config.CfgRule;
 import mgr.mkaminski.api.config.CfgRulesWrapper;
 import mgr.mkaminski.api.receiving.CategoriesListFrom;
 import mgr.mkaminski.api.receiving.CategoryFrom;
+import mgr.mkaminski.api.sending.RegisterWorkstationResoponse;
 import mgr.mkaminski.model.Counter;
 import mgr.mkaminski.model.CounterCategory;
 import mgr.mkaminski.model.CounterInstance;
@@ -150,6 +151,26 @@ public class IcingaWebService extends SpringBeanAutowiringSupport{
 			createInstances(categoryId, instances);
 			createCounters(categoryId, counters);
 		}
+	}
+	
+	@WebMethod(operationName="registerWorkstation")
+	@WebResult(name="registerWorkstationResponse")
+	public RegisterWorkstationResoponse registerWorkstation(@WebParam(name = "token") UUID token, @WebParam(name = "name") String name, @WebParam(name = "desc") String desc) {
+		RegisterWorkstationResoponse registerWorkstationResoponse = new RegisterWorkstationResoponse();
+		Workstation workstation = null;
+
+		if (token == null) {
+			workstation = new Workstation();
+			workstation.setName(name);
+			workstation.setDescription(desc);
+			workstationService.createWorkstation(workstation);
+			registerWorkstationResoponse.setToken(workstation.getToken());
+		} else {
+			workstation = workstationService.getWorkstationByToken(token);
+		}
+		
+		registerWorkstationResoponse.setCountersRequested(workstation.getRequestedCounters());
+		return registerWorkstationResoponse;
 	}
 	
 	private int createCategory(int groupId, String name) {

@@ -45,6 +45,7 @@
 								<tr>
 									<th>Name</th>
 									<th>Description</th>
+									<th>Notes</th>
 									<th></th>
 								</tr>
 							</thead>
@@ -107,6 +108,7 @@
 	</div>
 
 	<script>
+		var currentGroupId = 0;
 		var groupMap = {};
 		<c:forEach items="${modelMap['groups']}" var="group">
 			groupMap[${group.id}] = "${group.name}";
@@ -127,7 +129,7 @@
 		});
 
 		function getWorkstations(groupId) {
-
+			currentGroupId = groupId;
 			$.ajax({
 				type : "GET",
 				url : "getWorkstationsForGroup",
@@ -145,15 +147,35 @@
 			var wsTableHtml = "";
 
 			$.each(workstations, function(index, elem) {
+				var disabled = "";
+				var notes = "";
+				var discardButton = "";
+				
+				if(elem.requestedCounters) {
+					disabled = "disabled";
+				}
+				
+				if(elem.description2 != null && elem.description2 != "undefined") {
+					notes = elem.description2;
+				}
+				
+				if(groupId == 0) {
+					discardButton += "<td>";
+					discardButton += "<button type='button' class='btn btn-danger' value='" + elem.id + "' onclick='discardWorkstation(" + elem.id + ")'>Discard</button>";
+					discardButton += "</td>";	
+				}
+				
 				wsTableHtml += "<tr>";
 				wsTableHtml += "<td>" + elem.name + "</td>";
-				wsTableHtml += "<td>" + elem.description+ "</td>";
+				wsTableHtml += "<td>" + elem.description + "</td>";
+				wsTableHtml += "<td>" + notes + "</td>";
 				wsTableHtml += "<td>";
-				wsTableHtml += "<button type='button' class='btn btn-info' data-toggle='modal' data-target='#moveModal' value='" + elem.id + "'>Move</button>";
+				wsTableHtml += "<button type='button' class='btn btn-info' data-toggle='modal' data-target='#moveModal' value='" + elem.id + "' " + disabled + ">Move</button>";
 				wsTableHtml += "</td>";
 				wsTableHtml += "<td>";
-				wsTableHtml += "<button type='button' class='btn btn-info' data-toggle='modal' data-target='#newGroupModal' value='" + elem.id + "'>New group</button>";
+				wsTableHtml += "<button type='button' class='btn btn-info' data-toggle='modal' data-target='#newGroupModal' value='" + elem.id + "' " + disabled + ">New group</button>";
 				wsTableHtml += "</td>";
+				wsTableHtml += discardButton;
 				wsTableHtml += "</tr>";
 				
 			});
@@ -163,6 +185,19 @@
 			wsTable.html(wsTableHtml);
 			$("#groupNameLabel").html(groupMap[groupId]);
 			$("#showRulesLink").attr("href", "counterRules?groupId=" + groupId);
+		}
+		
+		function discardWorkstation(workstationId, groupId) {
+			$.ajax({
+				type : "GET",
+				url : "discardWorkstation",
+				data : {
+					workstationId : workstationId
+				},
+				success : function() {
+					getWorkstations(currentGroupId);
+				}
+			});
 		}
 	</script>
 </body>

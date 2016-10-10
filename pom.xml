@@ -38,6 +38,12 @@
 			<scope>compile</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-core</artifactId>
+			<version>2.2.7</version>
+		</dependency>
+
 		<!-- Spring4 dependencies -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -101,6 +107,11 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.4.192</version>
+		</dependency>
 
 		<!-- Servlet and JSP -->
 		<dependency>
@@ -161,11 +172,7 @@
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<version>2.1</version>
 				<configuration>
-					<server>tomcat7</server>
-					<url>http://icingaubuntu.cloudapp.net:8080/manager/text</url>
-					<source>1.8</source>
-					<target>1.8</target>
-					<debug>true</debug>
+					<url>http://194.29.168.210:8080/manager/text</url>
 				</configuration>
 			</plugin>
 		</plugins>

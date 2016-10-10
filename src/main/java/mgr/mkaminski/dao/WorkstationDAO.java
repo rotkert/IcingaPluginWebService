@@ -8,6 +8,7 @@ import mgr.mkaminski.model.Workstation;
 public interface WorkstationDAO {
 	public void createWorkstation(Workstation workstation);
 	public void updateWorkstation(Workstation workstation);
+	public void deleteWorkstation(Workstation workstation);
 	public List<Workstation> getWorkstatinons();
 	public Workstation getWorkstationByToken(UUID token);
 	public List<Workstation> getWorkstationByGroupId(int groupId);

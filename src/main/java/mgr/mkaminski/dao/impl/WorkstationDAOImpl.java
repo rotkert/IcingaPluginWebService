@@ -25,6 +25,11 @@ public class WorkstationDAOImpl implements WorkstationDAO {
 	public void updateWorkstation(Workstation workstation) {
 		hibernateUtil.update(workstation);
 	}
+	
+	@Override
+	public void deleteWorkstation(Workstation workstation) {
+		hibernateUtil.delete(workstation);
+	}
 
 	@Override
 	public List<Workstation> getWorkstatinons() {

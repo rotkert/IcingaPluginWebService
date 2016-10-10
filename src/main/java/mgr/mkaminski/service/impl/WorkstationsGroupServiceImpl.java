@@ -31,6 +31,7 @@ public class WorkstationsGroupServiceImpl implements WorkstationsGroupService{
 		
 		Workstation workstation = workstationService.getWorkstationById(workstationId);
 		workstation.setGroupId(workstationsGroup.getId());
+		workstation.setRequestedCounters(true);
 		workstationService.updateWorkstation(workstation);
 		return workstationsGroup.getId();
 	}
