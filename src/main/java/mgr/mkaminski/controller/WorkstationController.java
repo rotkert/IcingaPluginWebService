@@ -47,6 +47,13 @@ public class WorkstationController {
 		return new Gson().toJson(workstations);
 	}
 	
+	@RequestMapping(value="containsCounters")
+	@ResponseBody
+	public boolean isGropuWaitingForCounters(@RequestParam int groupId) {
+		WorkstationsGroup workstationsGroup = workstationsGroupService.getWorkstationsGroupById(groupId);
+		return workstationsGroup.isContainCounters();
+	}
+	
 	@RequestMapping(value="moveWorkstation")
 	public ModelAndView moveWorkstation(@RequestParam int workstationId, @RequestParam int groupId) {
 		Workstation workstation = workstationService.getWorkstationById(workstationId);
@@ -69,5 +76,16 @@ public class WorkstationController {
 	public void discardWorkstation(@RequestParam int workstationId) {
 		Workstation workstation = workstationService.getWorkstationById(workstationId);
 		workstationService.deleteWorkstation(workstation);
+	}
+	
+	@RequestMapping(value="removeWorkstationsGroup")
+	@ResponseBody
+	public  boolean removeWorkstationsGroup(@RequestParam int groupId) {
+		WorkstationsGroup group = workstationsGroupService.getWorkstationsGroupById(groupId);
+		if (workstationService.getWorkStationsByGroupId(groupId).size() > 0) {
+			return false;
+		} else {
+			return false;
+		}
 	}
 }

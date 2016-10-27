@@ -35,7 +35,7 @@
 								<b id="groupNameLabel"></b>
 							</div>
 							<div align="right">
-								<a id="showRulesLink" href="" style="color: white">Show Rules</a>
+								<a id="showRulesLink" href="" style="color: white"></a>
 							</div>
 						</h3>
 					</div>
@@ -53,6 +53,8 @@
 							</tbody>
 						</table>
 					</div>
+				</div>
+				<div id="removeGroupDiv">
 				</div>
 			</div>
 		</div>
@@ -140,6 +142,17 @@
 					finishGetWorkstations(data, groupId);
 				}
 			});
+			
+			$.ajax({
+				type : "GET",
+				url : "containsCounters",
+				data : {
+					groupId : groupId
+				},
+				success : function(data) {
+					showRulesLink(data, groupId);
+				}
+			});
 		}
 
 		function finishGetWorkstations(responseData, groupId) {
@@ -184,7 +197,24 @@
 			wsTable.empty();
 			wsTable.html(wsTableHtml);
 			$("#groupNameLabel").html(groupMap[groupId]);
-			$("#showRulesLink").attr("href", "counterRules?groupId=" + groupId);
+		}
+		
+		function showRulesLink(containsRules, groupId) {
+			if (groupId == 0) {
+				$("#showRulesLink").attr("href", "");
+				$("#showRulesLink").text("");
+				$("#removeGroupDiv").html("");
+			} else if (containsRules){
+				$("#showRulesLink").attr("href", "counterRules?groupId=" + groupId);
+				$("#showRulesLink").text("Show rules");
+			} else {
+				$("#showRulesLink").attr("href", "");
+				$("#showRulesLink").text("Waiting for counters...");
+			}
+			
+			if(groupId > 0) {
+				$("#removeGroupDiv").html('<button type="button" class="btn btn-danger" style="float:right;">Remove group</button>');
+			}
 		}
 		
 		function discardWorkstation(workstationId, groupId) {

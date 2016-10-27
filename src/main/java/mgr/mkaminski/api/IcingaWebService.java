@@ -27,10 +27,12 @@ import mgr.mkaminski.model.Counter;
 import mgr.mkaminski.model.CounterCategory;
 import mgr.mkaminski.model.CounterInstance;
 import mgr.mkaminski.model.Workstation;
+import mgr.mkaminski.model.WorkstationsGroup;
 import mgr.mkaminski.service.CounterCategoryService;
 import mgr.mkaminski.service.CounterInstanceService;
 import mgr.mkaminski.service.CounterService;
 import mgr.mkaminski.service.WorkstationService;
+import mgr.mkaminski.service.WorkstationsGroupService;
 
 @Service("IcingaWebService")
 @WebService(serviceName="IcingaWebService")
@@ -41,6 +43,9 @@ public class IcingaWebService extends SpringBeanAutowiringSupport{
 	
 	@Autowired
 	private WorkstationService workstationService;
+	
+	@Autowired
+	private WorkstationsGroupService workstationsGroupService;
 	
 	@Autowired
 	private CounterCategoryService counterCategoryService;
@@ -128,17 +133,17 @@ public class IcingaWebService extends SpringBeanAutowiringSupport{
 	}
 	
 	@WebMethod(operationName="uploadCounters")
-	public void uploadCounters(@WebParam(name="token") UUID token, @WebParam(name="categoriesList") CategoriesListFrom categoriesList) {
+	public String uploadCounters(@WebParam(name="token") UUID token, @WebParam(name="categoriesList") CategoriesListFrom categoriesList) {
 		Workstation workstation = workstationService.getWorkstationByToken(token);
 
 		if(workstation == null) {
-			return;
+			return "FAILED";
 		}
 		
 		int groupId = workstation.getGroupId();
 		
 		if(groupId < 1) {
-			return;
+			return "FAILED";
 		}
 		
 		List<CategoryFrom> categories = categoriesList.getCategories();
@@ -151,6 +156,14 @@ public class IcingaWebService extends SpringBeanAutowiringSupport{
 			createInstances(categoryId, instances);
 			createCounters(categoryId, counters);
 		}
+		
+		WorkstationsGroup group = workstationsGroupService.getWorkstationsGroupById(groupId);
+		group.setContainCounters();
+		workstation.setRequestedCounters(false);
+		workstationsGroupService.updateWorkstationsGroup(group);
+		workstationService.updateWorkstation(workstation);
+		
+		return "SUCCESS";
 	}
 	
 	@WebMethod(operationName="registerWorkstation")

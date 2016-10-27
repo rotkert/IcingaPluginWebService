@@ -43,7 +43,7 @@ public class WorkstationsGroupServiceImpl implements WorkstationsGroupService{
 
 	@Override
 	public void updateWorkstationsGroup(WorkstationsGroup workstationsGroup) {
-		workstationsGroupDao.createWorkstationsGroup(workstationsGroup);
+		workstationsGroupDao.updateWorkstationsGroup(workstationsGroup);
 	}
 
 	@Override

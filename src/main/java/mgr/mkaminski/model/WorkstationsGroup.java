@@ -24,9 +24,13 @@ public class WorkstationsGroup {
 	
 	@Column
 	private Date lastModification;
+	
+	@Column
+	private boolean containCounters;
 
 	public WorkstationsGroup() {
 		lastModification = new Date();
+		containCounters = false;
 	}
 	
 	public int getId() {
@@ -59,5 +63,13 @@ public class WorkstationsGroup {
 
 	public void setLastModification(Date lastModification) {
 		this.lastModification = lastModification;
+	}
+	
+	public boolean isContainCounters() {
+		return containCounters;
+	}
+
+	public void setContainCounters() {
+		this.containCounters = true;
 	}
 }
