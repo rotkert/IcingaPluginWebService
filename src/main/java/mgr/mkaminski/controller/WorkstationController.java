@@ -1,5 +1,6 @@
 package mgr.mkaminski.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import mgr.mkaminski.model.Workstation;
 import mgr.mkaminski.model.WorkstationsGroup;
@@ -21,10 +23,10 @@ import mgr.mkaminski.service.WorkstationsGroupService;
 public class WorkstationController {
 	
 	@Autowired
-	private WorkstationService workstationService;
+	private WorkstationService wsService;
 	
 	@Autowired
-	private WorkstationsGroupService workstationsGroupService;
+	private WorkstationsGroupService wsGroupService;
 	
 	@RequestMapping("workstations")
 	public ModelAndView getWorkstations(@RequestParam(required=false) Integer groupId) {
@@ -32,7 +34,7 @@ public class WorkstationController {
 			groupId = 0;
 		}
 		
-		List<WorkstationsGroup> groups = workstationsGroupService.getWorkstationsGroups();
+		List<WorkstationsGroup> groups = wsGroupService.getWorkstationsGroups();
 		HashMap<String, Object> modelMap = new HashMap<>();
 		modelMap.put("groups", groups);
 		modelMap.put("selectedGroup", groupId);
@@ -43,22 +45,22 @@ public class WorkstationController {
 	@RequestMapping(value="getWorkstationsForGroup")
 	@ResponseBody
 	public String getWorkstationsForGroup(@RequestParam int groupId) {
-		List<Workstation> workstations = workstationService.getWorkStationsByGroupId(groupId);
-		return new Gson().toJson(workstations);
+		List<Workstation> workstations = new ArrayList<>();
+		workstations.addAll(wsGroupService.getWorkstations(groupId));
+		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+		return gson.toJson(workstations);
 	}
 	
 	@RequestMapping(value="containsCounters")
 	@ResponseBody
 	public boolean isGropuWaitingForCounters(@RequestParam int groupId) {
-		WorkstationsGroup workstationsGroup = workstationsGroupService.getWorkstationsGroupById(groupId);
+		WorkstationsGroup workstationsGroup = wsGroupService.getWorkstationsGroupById(groupId);
 		return workstationsGroup.isContainCounters();
 	}
 	
 	@RequestMapping(value="moveWorkstation")
 	public ModelAndView moveWorkstation(@RequestParam int workstationId, @RequestParam int groupId) {
-		Workstation workstation = workstationService.getWorkstationById(workstationId);
-		workstation.setGroupId(groupId);
-		workstationService.updateWorkstation(workstation);
+		wsGroupService.changeWorkstationGroup(workstationId, groupId);
 		return new ModelAndView("redirect:workstations?groupId=" + groupId);
 	}
 	
@@ -67,25 +69,21 @@ public class WorkstationController {
 		if(desc == null) {
 			desc = "";
 		}
-		int workstationGroupId = workstationsGroupService.createWorkstationsGroup(workstationId, name, desc);
+		int workstationGroupId = wsGroupService.createWorkstationsGroup(workstationId, name, desc);
 		return new ModelAndView("redirect:workstations?groupId=" + workstationGroupId);
 	}
 	
 	@RequestMapping(value="discardWorkstation")
 	@ResponseBody
 	public void discardWorkstation(@RequestParam int workstationId) {
-		Workstation workstation = workstationService.getWorkstationById(workstationId);
-		workstationService.deleteWorkstation(workstation);
+		Workstation workstation = wsService.getWorkstationById(workstationId);
+		wsService.deleteWorkstation(workstation);
 	}
 	
 	@RequestMapping(value="removeWorkstationsGroup")
 	@ResponseBody
 	public  boolean removeWorkstationsGroup(@RequestParam int groupId) {
-		WorkstationsGroup group = workstationsGroupService.getWorkstationsGroupById(groupId);
-		if (workstationService.getWorkStationsByGroupId(groupId).size() > 0) {
-			return false;
-		} else {
-			return false;
-		}
+		WorkstationsGroup group = wsGroupService.getWorkstationsGroupById(groupId);
+		return false;
 	}
 }

@@ -8,13 +8,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import mgr.mkaminski.dao.WorkstationDAO;
+import mgr.mkaminski.dao.WorkstationsGroupDAO;
 import mgr.mkaminski.model.Workstation;
+import mgr.mkaminski.model.WorkstationsGroup;
 import mgr.mkaminski.service.WorkstationService;
+import mgr.mkaminski.service.WorkstationsGroupService;
 
 @Service
 @Transactional
 public class WorkstationServiceImpl implements WorkstationService{
 	
+	@Autowired
+	private WorkstationsGroupDAO wsGroupDAO;
 	@Autowired
 	private WorkstationDAO workstationDAO;
 
@@ -30,6 +35,9 @@ public class WorkstationServiceImpl implements WorkstationService{
 	
 	@Override
 	public void deleteWorkstation(Workstation workstation) {
+		WorkstationsGroup wsGroup = workstation.getWorkstationsGroup();
+		wsGroup.removeWorkstation(workstation);
+		wsGroupDAO.updateWorkstationsGroup(wsGroup);
 		workstationDAO.deleteWorkstation(workstation);
 	}
 
@@ -41,11 +49,6 @@ public class WorkstationServiceImpl implements WorkstationService{
 	@Override
 	public Workstation getWorkstationByToken(UUID token) {
 		return workstationDAO.getWorkstationByToken(token);
-	}
-
-	@Override
-	public List<Workstation> getWorkStationsByGroupId(int groupId) {
-		return workstationDAO.getWorkstationByGroupId(groupId);
 	}
 
 	@Override

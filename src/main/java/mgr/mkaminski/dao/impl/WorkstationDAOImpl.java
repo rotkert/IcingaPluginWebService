@@ -47,12 +47,6 @@ public class WorkstationDAOImpl implements WorkstationDAO {
 		return workstation;
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Workstation> getWorkstationByGroupId(int groupId) {
-		return hibernateUtil.fetchByColumn("groupId", groupId, Workstation.class);
-	}
-
 	@Override
 	public Workstation getWorkstationById(int id) {
 		return hibernateUtil.fetchById(id, Workstation.class);

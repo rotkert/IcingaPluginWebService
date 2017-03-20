@@ -45,7 +45,7 @@ public class IcingaWebService extends SpringBeanAutowiringSupport{
 	private WorkstationService workstationService;
 	
 	@Autowired
-	private WorkstationsGroupService workstationsGroupService;
+	private WorkstationsGroupService wsGroupService;
 	
 	@Autowired
 	private CounterCategoryService counterCategoryService;
@@ -89,14 +89,14 @@ public class IcingaWebService extends SpringBeanAutowiringSupport{
 	public CfgRulesWrapper getConfig(@WebParam(name = "token") UUID token, @WebParam(name = "name") String name, @WebParam(name = "desc") String desc) {
 		Workstation workstation = null;
 
-		if (token == null) {
-			workstation = new Workstation();
-			workstation.setName(name);
-			workstation.setDescription(desc);
-			workstationService.createWorkstation(workstation);
-		} else {
-			workstation = workstationService.getWorkstationByToken(token);
-		}
+//		if (token == null) {
+//			workstation = new Workstation();
+//			workstation.setName(name);
+//			workstation.setDescription(desc);
+//			workstationService.createWorkstation(workstation);
+//		} else {
+//			workstation = workstationService.getWorkstationByToken(token);
+//		}
 
 		CfgRulesWrapper configRulesWrapper = new CfgRulesWrapper();
 
@@ -140,7 +140,7 @@ public class IcingaWebService extends SpringBeanAutowiringSupport{
 			return "FAILED";
 		}
 		
-		int groupId = workstation.getGroupId();
+		int groupId = workstation.getWorkstationsGroup().getId();
 		
 		if(groupId < 1) {
 			return "FAILED";
@@ -157,10 +157,10 @@ public class IcingaWebService extends SpringBeanAutowiringSupport{
 			createCounters(categoryId, counters);
 		}
 		
-		WorkstationsGroup group = workstationsGroupService.getWorkstationsGroupById(groupId);
+		WorkstationsGroup group = wsGroupService.getWorkstationsGroupById(groupId);
 		group.setContainCounters();
 		workstation.setRequestedCounters(false);
-		workstationsGroupService.updateWorkstationsGroup(group);
+		wsGroupService.updateWorkstationsGroup(group);
 		workstationService.updateWorkstation(workstation);
 		
 		return "SUCCESS";
@@ -173,10 +173,8 @@ public class IcingaWebService extends SpringBeanAutowiringSupport{
 		Workstation workstation = null;
 
 		if (token == null) {
-			workstation = new Workstation();
-			workstation.setName(name);
-			workstation.setDescription(desc);
-			workstationService.createWorkstation(workstation);
+			workstation = new Workstation(name, desc);
+			wsGroupService.addWorkstation(workstation, 0);
 			registerWorkstationResoponse.setToken(workstation.getToken());
 		} else {
 			workstation = workstationService.getWorkstationByToken(token);

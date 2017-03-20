@@ -18,8 +18,8 @@ public class CounterCategoryServiceImpl implements CounterCategoryService{
 	private CounterCategoryDAO counterCategoryDAO;
 	
 	@Override
-	public List<CounterCategory> getCounterCategories() {
-		List<CounterCategory> counterObjects = counterCategoryDAO.getCounterCategories();
+	public List<CounterCategory> getCounterCategories(int groupId) {
+		List<CounterCategory> counterObjects = counterCategoryDAO.getCounterCategories(groupId);
 		counterObjects.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
 		return counterObjects;
 	}

@@ -14,9 +14,10 @@ public class CounterCategoryDAO implements mgr.mkaminski.dao.CounterCategoryDAO 
 	@Autowired
 	private HibernateUtil hibernateUtil;
 	
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<CounterCategory> getCounterCategories() {
-		return hibernateUtil.fetchAll(CounterCategory.class);
+	public List<CounterCategory> getCounterCategories(int groupId) {
+		return hibernateUtil.fetchByColumn("groupId", groupId, CounterCategory.class);
 	}
 
 	@Override

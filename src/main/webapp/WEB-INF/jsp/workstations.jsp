@@ -174,7 +174,7 @@
 				
 				if(groupId == 0) {
 					discardButton += "<td>";
-					discardButton += "<button type='button' class='btn btn-danger' value='" + elem.id + "' onclick='discardWorkstation(" + elem.id + ")'>Discard</button>";
+					discardButton += "<button type='button' class='btn btn-danger' value='" + elem.workstationId + "' onclick='discardWorkstation(" + elem.workstationId + ")'>Discard</button>";
 					discardButton += "</td>";	
 				}
 				
@@ -183,10 +183,10 @@
 				wsTableHtml += "<td>" + elem.description + "</td>";
 				wsTableHtml += "<td>" + notes + "</td>";
 				wsTableHtml += "<td>";
-				wsTableHtml += "<button type='button' class='btn btn-info' data-toggle='modal' data-target='#moveModal' value='" + elem.id + "' " + disabled + ">Move</button>";
+				wsTableHtml += "<button type='button' class='btn btn-info' data-toggle='modal' data-target='#moveModal' value='" + elem.workstationId + "' " + disabled + ">Move</button>";
 				wsTableHtml += "</td>";
 				wsTableHtml += "<td>";
-				wsTableHtml += "<button type='button' class='btn btn-info' data-toggle='modal' data-target='#newGroupModal' value='" + elem.id + "' " + disabled + ">New group</button>";
+				wsTableHtml += "<button type='button' class='btn btn-info' data-toggle='modal' data-target='#newGroupModal' value='" + elem.workstationId + "' " + disabled + ">New group</button>";
 				wsTableHtml += "</td>";
 				wsTableHtml += discardButton;
 				wsTableHtml += "</tr>";

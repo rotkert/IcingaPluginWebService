@@ -54,7 +54,7 @@ public class CounterRuleController {
 	@RequestMapping("counterRuleDetails")
 	public ModelAndView openCounterRuleDetails(@RequestParam int ruleId, @RequestParam int groupId,  @ModelAttribute CounterRule counterRule) {
 		List<CounterRule> counterRules = counterRuleService.getCounterRulesForRuleId(ruleId);
-		List<CounterCategory> counterObjects = counterObjectService.getCounterCategories();
+		List<CounterCategory> counterObjects = counterObjectService.getCounterCategories(groupId);
 		
 		Map<String, Object> modelMap = new HashMap<>();
 		modelMap.put("counterRules", counterRules);

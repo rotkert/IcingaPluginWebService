@@ -7,9 +7,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
+
+import com.google.gson.annotations.Expose;
 
 @Entity
 @Table(name="workstation")
@@ -17,27 +21,44 @@ public class Workstation {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	@Expose
+	private int workstationId;
 	@Column
 	@Type(type="uuid-char")
 	private UUID token;
 	@Column
+	@Expose
 	private String name;
 	@Column
+	@Expose
 	private String name2;
 	@Column
+	@Expose
 	private String description;
 	@Column
+	@Expose
 	private String description2;
 	@Column
+	@Expose
 	private int groupId;
 	@Column
+	@Expose
 	private boolean requestedCounters;
 	
+	@ManyToOne
+	@JoinColumn(name="id", nullable=false)
+	private WorkstationsGroup workstationsGroup;
+	
 	public Workstation() {
+		
+	}
+	
+	public Workstation(String name, String description) {
 		token = UUID.randomUUID();
 		groupId = 0;
 		requestedCounters = false;
+		this.name = name;
+		this.description = description;
 	}
 	
 	public UUID getToken() {
@@ -83,10 +104,20 @@ public class Workstation {
 		this.requestedCounters = requestedCounters;
 	}
 	public int getId() {
-		return id;
+		return workstationId;
 	}
 
 	public void setId(int id) {
-		this.id = id;
+		this.workstationId = id;
 	}
+
+	public WorkstationsGroup getWorkstationsGroup() {
+		return workstationsGroup;
+	}
+
+	public void setWorkstationsGroup(WorkstationsGroup workstationsGroup) {
+		this.workstationsGroup = workstationsGroup;
+	}
+	
+	
 }
