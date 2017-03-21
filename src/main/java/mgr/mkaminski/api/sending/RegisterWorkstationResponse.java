@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class RegisterWorkstationResoponse {
+public class RegisterWorkstationResponse {
 	private UUID token;
 	private boolean countersRequested;
 	

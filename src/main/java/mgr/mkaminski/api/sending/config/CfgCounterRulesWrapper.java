@@ -1,4 +1,4 @@
-package mgr.mkaminski.api.config;
+package mgr.mkaminski.api.sending.config;
 
 import java.util.List;
 

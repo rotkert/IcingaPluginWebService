@@ -1,35 +1,40 @@
-package mgr.mkaminski.api.config;
+package mgr.mkaminski.api.sending;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import mgr.mkaminski.api.sending.config.CfgCheckedCounter;
+import mgr.mkaminski.api.sending.config.CfgRule;
+
 @XmlRootElement
-public class CfgRulesWrapper {
-	private ArrayList<CfgCounterDetails> cfgCounters;
-	private List<CfgRule> cfgRule;
+public class GetConfigResponse {
+	private ArrayList<CfgCheckedCounter> cfgCounters;
+	private List<CfgRule> cfgRules;
 	private boolean requestedCounters;
-	private UUID token;
+	
+	public GetConfigResponse() {
+		requestedCounters = false;
+	}
 	
 	@XmlElement
-	public ArrayList<CfgCounterDetails> getCfgCounters() {
+	public ArrayList<CfgCheckedCounter> getCfgCounters() {
 		return cfgCounters;
 	}
 
-	public void setCfgCounters(ArrayList<CfgCounterDetails> cfgCounters) {
+	public void setCfgCounters(ArrayList<CfgCheckedCounter> cfgCounters) {
 		this.cfgCounters = cfgCounters;
 	}
 	
 	@XmlElement
 	public List<CfgRule> getCfgRules() {
-		return cfgRule;
+		return cfgRules;
 	}
 	
 	public void setCfgRules(List<CfgRule> cfgRule) {
-		this.cfgRule = cfgRule;
+		this.cfgRules = cfgRule;
 	}
 	
 	@XmlElement
@@ -39,14 +44,5 @@ public class CfgRulesWrapper {
 
 	public void setRequestedCounters(boolean requestedCounters) {
 		this.requestedCounters = requestedCounters;
-	}
-	
-	@XmlElement
-	public UUID isToken() {
-		return token;
-	}
-
-	public void setToken(UUID token) {
-		this.token = token;
 	}
 }
