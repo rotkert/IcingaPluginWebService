@@ -37,8 +37,8 @@ public class WorkstationServiceImpl implements WorkstationService{
 	public void deleteWorkstation(Workstation workstation) {
 		WorkstationsGroup wsGroup = workstation.getWorkstationsGroup();
 		wsGroup.removeWorkstation(workstation);
+		workstation.setWorkstationsGroup(null);
 		wsGroupDAO.updateWorkstationsGroup(wsGroup);
-		workstationDAO.deleteWorkstation(workstation);
 	}
 
 	@Override

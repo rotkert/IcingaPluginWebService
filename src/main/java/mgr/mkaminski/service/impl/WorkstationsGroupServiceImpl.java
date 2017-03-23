@@ -1,5 +1,6 @@
 package mgr.mkaminski.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -54,7 +55,7 @@ public class WorkstationsGroupServiceImpl implements WorkstationsGroupService{
 	}
 
 	@Override
-	public Set<Workstation> getWorkstations(int groupId) {
+	public ArrayList<Workstation> getWorkstations(int groupId) {
 		WorkstationsGroup workstationsGroup = getWorkstationsGroupById(groupId);
 		Hibernate.initialize(workstationsGroup.getWorkstations());
 		return workstationsGroup.getWorkstations();

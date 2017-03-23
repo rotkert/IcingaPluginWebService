@@ -1,12 +1,12 @@
 package mgr.mkaminski.model;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -32,8 +32,8 @@ public class WorkstationsGroup {
 	@Column
 	private boolean containCounters;
 	
-	@OneToMany(mappedBy = "workstationsGroup", cascade = CascadeType.ALL)
-	private Set<Workstation> workstations;
+	@OneToMany(mappedBy = "workstationsGroup", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
+	private ArrayList<Workstation> workstations;
 
 	public WorkstationsGroup() {
 		
@@ -44,7 +44,7 @@ public class WorkstationsGroup {
 		this.description = desc;
 		lastModification = new Date();
 		containCounters = false;
-		workstations = new HashSet<>();
+		workstations = new ArrayList<>();
 	}
 	
 	public int getId() {
@@ -87,11 +87,11 @@ public class WorkstationsGroup {
 		this.containCounters = true;
 	}
 
-	public Set<Workstation> getWorkstations() {
+	public ArrayList<Workstation> getWorkstations() {
 		return workstations;
 	}
 
-	public void setWorkstations(Set<Workstation> workstations) {
+	public void setWorkstations(ArrayList<Workstation> workstations) {
 		this.workstations = workstations;
 	}
 	
@@ -101,5 +101,8 @@ public class WorkstationsGroup {
 	
 	public void removeWorkstation(Workstation workstation) {
 		workstations.remove(workstation);
+		if(workstation != null) {
+			workstation.setWorkstationsGroup(null);
+		}
 	}
 }

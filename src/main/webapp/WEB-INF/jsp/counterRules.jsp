@@ -20,7 +20,10 @@
 			<div class="panel-heading">
 				<h3 class="panel-title">
 					<div align="left">
-						<b>Counter Rules</b>
+						<b>Counter Rules for group</b>
+					</div>
+					<div style='float:left;'>
+						<a href='workstations?groupId=<%=request.getParameter("groupId")%>' style='color:white'>Back to workstations</a>
 					</div>
 					<div align="right">
 						<a href='counterRuleDetails?ruleId=-1&groupId=<%=request.getParameter("groupId")%>' style="color:white">Add Counter Rule</a>
