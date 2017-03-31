@@ -64,7 +64,6 @@ public class CounterRuleController {
 	
 	@RequestMapping(value="saveCounterRule")
 	public ModelAndView saveCounterRule(@ModelAttribute CounterRule counterRule) {
-		System.out.println(counterRule.getCategory());
 		int groupId = counterRule.getGroupId();
 		long ruleId = counterRule.getRuleId();
 		if(ruleId == -1) {

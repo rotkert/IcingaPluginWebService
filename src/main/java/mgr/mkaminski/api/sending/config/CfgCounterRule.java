@@ -10,12 +10,14 @@ public class CfgCounterRule {
 	private int counterId;
 	private double criticalValue;
 	private boolean isAbove;
+	private int minChecks;
 	
-	public CfgCounterRule(int counterId, double criticalValue, boolean isAbove) {
+	public CfgCounterRule(int counterId, double criticalValue, boolean isAbove, int minChecks) {
 		super();
 		this.counterId = counterId;
 		this.criticalValue = criticalValue;
 		this.isAbove = isAbove;
+		this.minChecks = minChecks;
 	}
 
 	@XmlElement
@@ -31,5 +33,10 @@ public class CfgCounterRule {
 	@XmlElement
 	public boolean isAbove() {
 		return isAbove;
+	}
+
+	@XmlElement
+	public int getMinChecks() {
+		return minChecks;
 	}
 }

@@ -2,6 +2,7 @@ package mgr.mkaminski.model;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -33,7 +34,7 @@ public class WorkstationsGroup {
 	private boolean containCounters;
 	
 	@OneToMany(mappedBy = "workstationsGroup", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
-	private ArrayList<Workstation> workstations;
+	private List<Workstation> workstations;
 
 	public WorkstationsGroup() {
 		
@@ -87,7 +88,7 @@ public class WorkstationsGroup {
 		this.containCounters = true;
 	}
 
-	public ArrayList<Workstation> getWorkstations() {
+	public List<Workstation> getWorkstations() {
 		return workstations;
 	}
 

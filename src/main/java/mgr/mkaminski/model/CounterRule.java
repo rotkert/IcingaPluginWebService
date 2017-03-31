@@ -41,6 +41,9 @@ public class CounterRule implements Serializable{
 	private int minPeriod;
 	
 	@Column
+	private int maxChecks;
+	
+	@Column
 	private boolean isAbove;
 
 	public long getId() {
@@ -106,12 +109,20 @@ public class CounterRule implements Serializable{
 	public void setMinPeriod(int minPeriod) {
 		this.minPeriod = minPeriod;
 	}
+	
+	public int getMaxChecks() {
+		return maxChecks;
+	}
+
+	public void setMaxChecks(int maxChecks) {
+		this.maxChecks = maxChecks;
+	}
 
 	public boolean getIsAbove() {
 		return isAbove;
 	}
 
-	public void setAbove(boolean isAbove) {
+	public void setIsAbove(boolean isAbove) {
 		this.isAbove = isAbove;
 	}
 }

@@ -12,7 +12,7 @@ public interface WorkstationsGroupService {
 	public WorkstationsGroup getWorkstationsGroupById(int id);
 	public void updateWorkstationsGroup(WorkstationsGroup workstationsGroup);
 	public List<WorkstationsGroup> getWorkstationsGroups();
-	public ArrayList<Workstation> getWorkstations(int groupId);
+	public List<Workstation> getWorkstations(int groupId);
 	public void addWorkstation(Workstation workstation, int groupId);
 	void changeWorkstationGroup(int workstationId, int groupId);
 }

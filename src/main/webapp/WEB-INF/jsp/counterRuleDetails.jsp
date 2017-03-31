@@ -95,6 +95,7 @@
 							<th>Name</th>
 							<th>Threshold</th>
 							<th>Min. Period</th>
+							<th>Max. Checks</th>
 							<th>Is Above</th>
 							<th></th>
 						</tr>
@@ -107,6 +108,7 @@
 								<td><c:out value="${cr.name}" /></td>
 								<td><c:out value="${cr.threshold}" /></td>
 								<td><c:out value="${cr.minPeriod}" /></td>
+								<td><c:out value="${cr.maxChecks}" /></td>
 								<td><c:out value="${cr.isAbove}" /></td>
 								<td align="center">
 									<a href='deleteCounterRule?id=${cr.id}&ruleId=<%= request.getParameter("ruleId") %>&groupId=<%= request.getParameter("groupId") %>'>
@@ -132,7 +134,13 @@
 								<td><form:select id="counterName" class="form-control" path="name" value="${counterRuleObject.name}" style="width:120px" disabled="true"/></td>
 								<td><form:input type="text" class="form-control" path="threshold" value="${counterRuleObject.threshold}"/></td>
 								<td><form:input type="text" class="form-control" path="minPeriod" value="${counterRuleObject.minPeriod}"/></td>
-								<td><form:input type="text" class="form-control" path="isAbove" value="${counterRuleObject.isAbove}"/></td>
+								<td><form:input type="text" class="form-control" path="maxChecks" value="${counterRuleObject.maxChecks}"/></td>
+								<td>
+									<form:select style="width:70px;" class="form-control" path="isAbove" value="${counterRuleObject.isAbove}">
+										<form:option value="true">Yes</form:option>
+										<form:option value="false">No</form:option>
+									</form:select>
+								</td>
 								<td><input type="submit" id="addCounterRule" class="btn btn-success" value="Add"/></td>
 							</tr>
 						</form:form>

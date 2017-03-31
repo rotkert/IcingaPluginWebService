@@ -55,7 +55,7 @@ public class WorkstationsGroupServiceImpl implements WorkstationsGroupService{
 	}
 
 	@Override
-	public ArrayList<Workstation> getWorkstations(int groupId) {
+	public List<Workstation> getWorkstations(int groupId) {
 		WorkstationsGroup workstationsGroup = getWorkstationsGroupById(groupId);
 		Hibernate.initialize(workstationsGroup.getWorkstations());
 		return workstationsGroup.getWorkstations();

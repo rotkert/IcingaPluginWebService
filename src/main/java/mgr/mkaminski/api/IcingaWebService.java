@@ -125,7 +125,7 @@ public class IcingaWebService extends SpringBeanAutowiringSupport{
 					id = checkedCounters.get(counterPath).getId();
 				}
 				
-				CfgCounterRule cfgCounterRule = new CfgCounterRule(id, counterRule.getThreshold(), counterRule.getIsAbove());
+				CfgCounterRule cfgCounterRule = new CfgCounterRule(id, counterRule.getThreshold(), counterRule.getIsAbove(), counterRule.getMinPeriod());
 				cfgCounterRules.add(cfgCounterRule);
 			}
 			CfgCounterRulesWrapper counterRulesWrapper = new CfgCounterRulesWrapper();
